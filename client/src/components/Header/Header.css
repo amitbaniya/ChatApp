@@ -1,0 +1,85 @@
+.header {
+  color: #e195ab;
+  background-color: #fff5d7;
+  display: flex;
+  justify-content: center; /* Center aligns all elements */
+  align-items: center;
+
+  padding: 2vw;
+  position: relative; /* Allows absolute positioning for child elements */
+}
+
+.logo {
+  position: absolute;
+  font-size: 2vw;
+  left: 50%;
+  transform: translateX(-50%); /* Moves the h1 to the exact center */
+}
+
+.profile-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.logout-button {
+  width: 8vw;
+  background-color: #ffcce1;
+  color: #e195ab;
+  border-color: #e195ab;
+  font-size: small;
+  font-weight: bold;
+}
+
+.logout-button:hover {
+  background-color: #e195ab !important;
+  color: #fff5d7 !important;
+  border-color: #fff5d7 !important;
+}
+
+.logout-button-icon {
+  display: none;
+  color: #e195ab;
+  font-size: 5vw;
+  font-weight: bold;
+}
+
+.profile {
+  background-image: url(./image.png);
+  background-size: cover;
+  width: 3.3vw;
+  height: 3.3vw;
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+    font-size: 4vw;
+  }
+  .logout-button {
+    display: none;
+  }
+  .logout-button-icon {
+    display: block;
+  }
+  .profile {
+    width: 9vw;
+    height: 9vw;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .logo {
+    font-size: 2.65vw;
+  }
+
+  .logout-button {
+    width: 9vw;
+    font-size: 1.5vw;
+  }
+  .profile {
+    width: 5vw;
+    height: 5vw;
+  }
+}
