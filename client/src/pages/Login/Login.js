@@ -3,11 +3,18 @@ import { Button, Form, Input } from "antd";
 import "./Login.css";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { loginUser } from "../../services/authServices";
 
-const handleLogin = (values) => {
-  console.log("Gello");
-};
 function Login() {
+  const [form] = Form.useForm();
+  const handleLogin = async (values) => {
+    try {
+      const data = await loginUser(JSON.stringify(values));
+      console.log("Login success:", data);
+    } catch (err) {
+      console.log(err.response?.data || "An error occurred.");
+    }
+  };
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   return (
     <section className="login-page">
@@ -15,6 +22,7 @@ function Login() {
         <h1 className="login-heading">LOGIN</h1>
         <Form
           name="loginform"
+          form={form}
           className="login-form"
           onFinish={handleLogin}
           autoComplete="off"
