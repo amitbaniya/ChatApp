@@ -38,3 +38,49 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const registerUser = async (req, res) => {
+  const errors = {};
+  try {
+    const { firstname, lastname, username, email, phoneNumber, password } =
+      req.body;
+
+    const existingEmail = await User.findOne({
+      email,
+    });
+    const existingUsername = await User.findOne({
+      username,
+    });
+    const existingPhoneNumber = await User.findOne({
+      phoneNumber,
+    });
+
+    if (existingEmail) errors.email("Email");
+    if (existingUsername) errors.username("Username");
+    if (existingPhoneNumber) errors.phoneNumber("Phone number");
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      firstname,
+      lastname,
+      username,
+      email,
+      phoneNumber,
+      password: hashedPassword,
+      profilePicture: "uploads/default.png",
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
