@@ -1,19 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
+
 .header {
   color: #e195ab;
   background-color: #fff5d7;
   display: flex;
-  justify-content: center; /* Center aligns all elements */
+  justify-content: center;
   align-items: center;
-
-  padding: 2vw;
-  position: relative; /* Allows absolute positioning for child elements */
+  padding: 0.5vw;
+  height: 7vh;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .logo {
   position: absolute;
-  font-size: 2vw;
+  font-size: 1.7vw;
   left: 50%;
-  transform: translateX(-50%); /* Moves the h1 to the exact center */
+  transform: translateX(-50%);
+  font-family: "karla";
+  font-weight: 750;
 }
 
 .profile-section {
@@ -25,12 +31,15 @@
 }
 
 .logout-button {
-  width: 8vw;
+  width: 7vw;
+  height: 2vw;
+
   background-color: #ffcce1;
   color: #e195ab;
   border-color: #e195ab;
-  font-size: small;
-  font-weight: bold;
+  font-family: "inter";
+  font-size: 0.9vw;
+  font-weight: 600;
 }
 
 .logout-button:hover {
@@ -62,10 +71,11 @@
   }
   .logout-button-icon {
     display: block;
+    font-size: 17px;
   }
   .profile {
-    width: 9vw;
-    height: 9vw;
+    width: 30px;
+    height: 30px;
   }
 }
 
@@ -76,6 +86,7 @@
 
   .logout-button {
     width: 9vw;
+    height: 4vw;
     font-size: 1.5vw;
   }
   .profile {
