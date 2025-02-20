@@ -5,15 +5,17 @@
   color: #e195ab;
   background-color: #fff5d7;
   display: flex;
-  justify-content: center; /* Center aligns all elements */
+  justify-content: center;
   align-items: center;
   padding: 0.5vw;
-  position: relative; /* Allows absolute positioning for child elements */
+  height: 7vh;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .logo {
   position: absolute;
-  font-size: 2vw;
+  font-size: 1.7vw;
   left: 50%;
   transform: translateX(-50%);
   font-family: "karla";
