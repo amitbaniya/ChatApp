@@ -9,7 +9,12 @@ function Header() {
       <div className="profile-section">
         <Button className="logout-button">Logout</Button>
         <LogoutOutlined className="logout-button-icon" />
-        <Avatar className="profile"></Avatar>
+        <Avatar
+          className="profile"
+          style={{
+            "--profile-bg": `url(${process.env.REACT_APP_PROFILE_URL}/default.png)`,
+          }}
+        ></Avatar>
       </div>
     </header>
   );

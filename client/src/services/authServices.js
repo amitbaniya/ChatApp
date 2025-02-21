@@ -1,4 +1,4 @@
-import AuthAPI from "./apiUrl";
+import { AuthAPI } from "./apiUrl";
 
 export const loginUser = async (credentials) => {
   try {
