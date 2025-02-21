@@ -4,13 +4,13 @@ import User from "../models/User.js";
 import dotenv from "dotenv";
 
 dotenv.config();
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
 export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -30,6 +30,7 @@ export const loginUser = async (req, res) => {
         lastname: user.lastname,
         username: user.username,
         email: user.email,
+        phoneNumber: user.phoneNumber,
         profilePicture: user.profilePicture,
       },
     });
