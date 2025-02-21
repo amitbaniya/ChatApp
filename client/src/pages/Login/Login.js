@@ -3,14 +3,18 @@ import { Button, Form, Input } from "antd";
 import "./Login.css";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { loginUser } from "../../services/authServices";
+import { loginUser } from "../../services/AuthServices";
+import { useAuth } from "../../context/AuthContext";
 
 function Login() {
+  const { login } = useAuth();
   const [form] = Form.useForm();
   const handleLogin = async (values) => {
     try {
       const data = await loginUser(JSON.stringify(values));
       console.log("Login success:", data);
+
+      login(data.token, data.user);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }

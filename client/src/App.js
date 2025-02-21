@@ -3,6 +3,7 @@ import Header from "./components/Header/Header";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 function App() {
   return (
@@ -11,6 +12,10 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+
+        <Route element={<PrivateRoutes />}>
+          {/* <Route path="/" element={<Chats />} /> */}
+        </Route>
       </Routes>
     </Router>
   );
