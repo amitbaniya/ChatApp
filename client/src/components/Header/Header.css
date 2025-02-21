@@ -54,7 +54,7 @@
 }
 
 .profile {
-  background-image: white;
+  background-image: var(--profile-bg);
   background-size: cover;
   width: 3.3vw;
   height: 3.3vw;
