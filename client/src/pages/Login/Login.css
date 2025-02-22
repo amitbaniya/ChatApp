@@ -1,152 +1,12 @@
 @import url(../../assets/fonts.css);
+@import url(../Commons/Auth.css);
 
-.login-page {
-  display: flex;
-  justify-content: center;
-  height: calc(100vh - 7vh);
-  background-color: #f2f9ff;
-}
-.login-container {
-  display: flex;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.login-heading {
-  font-size: 90px;
-  font-family: "Akshar", serif;
-  font-weight: 450;
-  color: #ffcce1;
-  margin-bottom: 10px;
-  margin-top: 30px;
-  transition: font-size 0.5s ease;
-}
-
-.submit-button {
-  display: flex;
-  justify-content: center;
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  width: 30vw;
-}
-
-.ant-input {
-  font-family: "Quicksand", serif;
-  font-weight: 500;
-  font-size: 0.9vw;
-  text-align: center;
-  color: #e195ab;
-  background-color: #f2f9ff;
-  border: 0 none;
-  border-bottom: 1px solid #ffcce1;
-  border-radius: 0;
-  padding: 0 11px;
-}
-
-.ant-input::placeholder {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #e195ab;
-  transition: font-size 0.5s ease;
-}
-.ant-input:hover {
-  background-color: #f2f9ff;
-  border-bottom: 1px solid #e195ab;
-  font-size: 1vw;
-}
-
-.ant-input:hover::placeholder {
-  color: #ffcce1;
-}
-
-.ant-input:focus {
-  border-bottom: 2px solid #e195ab;
-  background-color: transparent;
-  box-shadow: none;
-  pointer-events: none;
-  font-size: 1vw;
-}
-
-.password-wrapper {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.password-input {
-  width: 100%;
-}
-
-.password-toggle-button {
-  position: absolute;
-  right: 10px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  color: #e195ab;
-  transition: font-size 0.5s ease;
-}
-
-.password-toggle-button:hover {
-  background: transparent !important;
-  font-size: 16px;
-  color: #a14660 !important;
-}
-
-.register-navigate-button {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 10px;
-  color: #e195ab;
-  margin-bottom: 10px;
-  transition: font-size 0.5s ease;
-  font-family: "Quicksand", serif;
-}
-
-.register-navigate-button:hover {
-  color: #a14660;
-  font-size: 10.5px;
-  transition: font-size 0.5s ease;
-}
-
-.login-button-wrapper {
-  width: 100%;
-  height: 100%;
-  background-color: #ffcce1;
-  border-color: #e195ab;
-  justify-items: center;
-  transition: transform 0.3s ease;
-}
-
-.login-button {
-  background-color: #ffcce1;
-  color: #e195ab;
-  box-shadow: none;
-  font-family: "inter";
-  font-weight: 600;
-}
-
-.login-button:hover,
-.login-button-wrapper:hover {
-  transform: scaleX(1.05);
-  background-color: #ffcce1 !important;
-  color: #a14660 !important;
-}
 
 @media screen and (max-width: 480px) {
-  .login-form {
+  .authForm {
     width: 50vw;
   }
-  .login-heading {
+  .authHeading {
     font-size: 70px;
   }
   .ant-input {
@@ -158,27 +18,28 @@
   }
   .ant-input:focus {
     font-size: 2.3vw;
+    
   }
-  .register-navigate-button {
+  .authIavigate-button {
     font-size: 7px;
   }
 
-  .register-navigate-button:hover {
+  .authNavigate-button:hover {
     font-size: 7.5px;
   }
 
-  .password-toggle-button {
+  .passwordToggleButton {
     font-size: 1.7vw;
     padding: 0;
   }
 }
 
 @media (max-width: 768px) and (min-width: 481px) {
-  .login-form {
+  .authForm {
     width: 40vw;
   }
 
-  .login-heading {
+  .authHeading {
     font-size: 80px;
   }
   .ant-input {
@@ -189,15 +50,15 @@
     font-size: 2vw;
   }
 
-  .register-navigate-button {
+  .authNavigateButton {
     font-size: 8px;
   }
 
-  .register-navigate-button:hover {
+  .authNavigateButton:hover {
     font-size: 8.5px;
   }
 
-  .password-toggle-button {
+  .passwordToggleButton {
     font-size: 1.7vw;
     padding: 0;
   }
