@@ -15,7 +15,7 @@ export const registerUser = async (credentials) => {
     const response = await AuthAPI.post("/register", credentials);
     return response.data;
   } catch (error) {
-    console.error("Login error:", error.response?.data || error.message);
+    console.error("Registration error:", error.response?.data || error.message);
     throw error;
   }
 };

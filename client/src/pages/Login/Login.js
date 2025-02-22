@@ -56,15 +56,9 @@ function Login() {
             Don't have an account? Create one.
           </Link>
 
-          <Form.Item className="submitButtonWrapper">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="submitButton"
-            >
-              Login
-            </Button>
-          </Form.Item>
+          <Button type="primary" htmlType="submit" className="submitButton">
+            Login
+          </Button>
         </Form>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Row, Space } from "antd";
+import { Button, Form, Input, Space } from "antd";
 import "./Register.css";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -65,12 +65,9 @@ function Register() {
           <Link to="/login" className="authNavigateButton">
             Already have an account? Login.
           </Link>
-
-          <Form.Item className="submitButtonWrapper">
-            <Button type="primary" htmlType="submit" className="submitButton">
-              Register
-            </Button>
-          </Form.Item>
+          <Button type="primary" htmlType="submit" className="submitButton">
+            Register
+          </Button>
         </Form>
       </div>
     </section>
