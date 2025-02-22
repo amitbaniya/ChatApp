@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input, Row, Space } from "antd";
 import "./Register.css";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -17,21 +17,21 @@ function Register() {
   };
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   return (
-    <section className="auth-page">
-      <div className="auth-container">
-        <h1 className="auth-heading">REGISTER</h1>
+    <section className="authPage">
+      <div className="authContainer">
+        <h1 className="authHeading">REGISTER</h1>
         <Form
           name="registerform"
           form={form}
-          className="auth-form"
+          className="authForm"
           onFinish={handleRegistration}
           autoComplete="off"
         >
-          <Space direction="horizontal">
-            <Form.Item name="firstName" style={{ marginBottom: "32px" }}>
+          <Space className="nameContainer" wrap>
+            <Form.Item name="firstname" style={{ marginBottom: "32px" }}>
               <Input placeholder="First Name" />
             </Form.Item>
-            <Form.Item name="lastName" style={{ marginBottom: "32px" }}>
+            <Form.Item name="lastname" style={{ marginBottom: "32px" }}>
               <Input placeholder="Last Name" />
             </Form.Item>
           </Space>
@@ -46,7 +46,7 @@ function Register() {
           </Form.Item>
 
           <Form.Item name="password" style={{ marginBottom: "10px" }}>
-            <div className="password-wrapper">
+            <div className="passwordWrapper">
               <Input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
@@ -54,7 +54,7 @@ function Register() {
               />
               <Button
                 type="text"
-                className="password-toggle-button"
+                className="passwordToggleButton"
                 onClick={() => setPasswordVisible((prevState) => !prevState)}
               >
                 {passwordVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
@@ -62,12 +62,12 @@ function Register() {
             </div>
           </Form.Item>
 
-          <Link to="/login" className="auth-navigate-button">
+          <Link to="/login" className="authNavigateButton">
             Already have an account? Login.
           </Link>
 
-          <Form.Item className="auth-button-wrapper">
-            <Button type="primary" htmlType="submit" className="auth-button">
+          <Form.Item className="submitButtonWrapper">
+            <Button type="primary" htmlType="submit" className="submitButton">
               Register
             </Button>
           </Form.Item>

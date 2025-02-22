@@ -21,13 +21,13 @@ function Login() {
   };
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   return (
-    <section className="login-page">
-      <div className="login-container">
-        <h1 className="login-heading">LOGIN</h1>
+    <section className="authPage">
+      <div className="authContainer">
+        <h1 className="authHeading">LOGIN</h1>
         <Form
-          name="loginform"
+          name="authform"
           form={form}
-          className="login-form"
+          className="authForm"
           onFinish={handleLogin}
           autoComplete="off"
         >
@@ -36,15 +36,15 @@ function Login() {
           </Form.Item>
 
           <Form.Item name="password" style={{ marginBottom: "10px" }}>
-            <div className="password-wrapper">
+            <div className="passwordWrapper">
               <Input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className="password-input"
+                className="passwordInput"
               />
               <Button
                 type="text"
-                className="password-toggle-button"
+                className="passwordToggleButton"
                 onClick={() => setPasswordVisible((prevState) => !prevState)}
               >
                 {passwordVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
@@ -52,12 +52,16 @@ function Login() {
             </div>
           </Form.Item>
 
-          <Link to="/register" className="register-navigate-button">
+          <Link to="/register" className="authNavigateButton">
             Don't have an account? Create one.
           </Link>
 
-          <Form.Item className="login-button-wrapper">
-            <Button type="primary" htmlType="submit" className="login-button">
+          <Form.Item className="submitButtonWrapper">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="submitButton"
+            >
               Login
             </Button>
           </Form.Item>

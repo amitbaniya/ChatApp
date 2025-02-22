@@ -1,0 +1,144 @@
+@import url(../../assets/fonts.css);
+
+.authPage {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 7vh);
+  overflow: auto;
+  background-color: #f2f9ff;
+}
+.authContainer {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.authHeading {
+  font-size: 90px;
+  font-family: "Akshar", serif;
+  font-weight: 450;
+  color: #ffcce1;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  transition: font-size 0.5s ease;
+}
+
+.submitButton {
+  display: flex;
+  justify-content: center;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+
+.ant-input {
+  font-family: "Quicksand", serif;
+  font-weight: 500;
+  font-size: 0.9vw;
+  text-align: center;
+  color: #e195ab;
+  background-color: #f2f9ff;
+  border: 0 none;
+  border-bottom: 1px solid #ffcce1;
+  border-radius: 0;
+  padding: 0 11px;
+}
+
+.ant-input::placeholder {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #e195ab;
+  transition: font-size 0.5s ease;
+}
+.ant-input:hover {
+  background-color: #f2f9ff;
+  border-bottom: 1px solid #e195ab;
+  font-size: 1vw;
+}
+
+.ant-input:hover::placeholder {
+  color: #ffcce1;
+}
+
+.ant-input:focus {
+  border-bottom: 2px solid #e195ab;
+  background-color: transparent;
+  box-shadow: none;
+  pointer-events: none;
+  font-size: 1vw;
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  width: 100%;
+}
+
+.passwordToggleButton {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #e195ab;
+  transition: font-size 0.5s ease;
+}
+
+.passwordToggleButton:hover {
+  background: transparent !important;
+  font-size: 16px;
+  color: #a14660 !important;
+}
+
+.authNavigateButton {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 10px;
+  color: #e195ab;
+  margin-bottom: 10px;
+  transition: font-size 0.5s ease;
+  font-family: "Quicksand", serif;
+}
+
+.authNavigateButton:hover {
+  color: #a14660;
+  font-size: 10.5px;
+  transition: font-size 0.5s ease;
+}
+
+.submitButtonWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #ffcce1;
+  border-color: #e195ab;
+  justify-items: center;
+  transition: transform 0.3s ease;
+}
+
+.submitButton {
+  background-color: #ffcce1;
+  color: #e195ab;
+  box-shadow: none;
+  font-family: "inter";
+  font-weight: 600;
+}
+
+.submitButton:hover,
+.submitButton-wrapper:hover {
+  transform: scaleX(1.05);
+  background-color: #ffcce1 !important;
+  color: #a14660 !important;
+}

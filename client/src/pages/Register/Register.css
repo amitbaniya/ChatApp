@@ -1,0 +1,5 @@
+@import url(../Commons/Auth.css);
+
+.ant-space-item {
+  flex: auto;
+}
