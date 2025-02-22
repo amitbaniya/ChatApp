@@ -9,8 +9,9 @@ const UserSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePicture: { type: String, default: "default.png" },
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
-
+UserSchema.index({ firstname: "text", lastname: "text" });
 export default mongoose.model("User", UserSchema);
