@@ -1,14 +1,15 @@
 import axios from "axios";
+import { API_URL } from "./Constants";
 
 export const AuthAPI = axios.create({
-  baseURL: process.env.REACT_APP_API_URL + "/api/auth",
+  baseURL: API_URL + "/api/auth",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 export const ProfilePictureAPI = axios.create({
-  baseURL: process.env.REACT_APP_API_URL + "/uploads/profiles", // example URL
+  baseURL: API_URL + "/uploads/profiles", // example URL
   headers: {
     "Content-Type": "application/json",
   },
