@@ -3,6 +3,7 @@ import { Button, Avatar } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import "./Header.css";
 import { useAuth } from "../../context/AuthContext";
+import { PROFILE_URL } from "../../services/Constants";
 
 function Header() {
   const { user, loading, logout } = useAuth();
@@ -25,7 +26,7 @@ function Header() {
           <Avatar
             className="profile"
             style={{
-              "--profile-bg": `url(${process.env.REACT_APP_PROFILE_URL}/default.png)`,
+              "--profile-bg": `url(${PROFILE_URL}/default.png)`,
             }}
           ></Avatar>
         </div>
