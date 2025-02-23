@@ -2,6 +2,7 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import ChatPage from "./pages/ChatPage/ChatPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./routes/PrivateRoutes";
 
@@ -14,7 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route element={<PrivateRoutes />}>
-          {/* <Route path="/" element={<Chats />} /> */}
+          <Route path="/" element={<ChatPage />} />
         </Route>
       </Routes>
     </Router>
