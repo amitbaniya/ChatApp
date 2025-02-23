@@ -11,12 +11,14 @@
 .chatRoom {
   width: 72%;
   margin: 10px;
+  max-height: calc(100vh - 9.5vh);
   background-color: #e195ab;
   border-radius: 10px;
 }
 
 .chats {
   width: 24%;
+  max-height: calc(100vh - 9.5vh);
   margin: 10px;
   border-radius: 10px;
   background-color: #e195ab;
@@ -46,6 +48,7 @@
   margin: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  overflow: auto;
 }
 .friendContainer {
   display: flex;
