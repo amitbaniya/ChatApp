@@ -6,7 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import friendsRoutes from "./routes/friendsRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
-import authMiddleware from "./middleware/authMiddleware.js"; // Correct the import path
+import authMiddleware from "./middleware/authMiddleware.js";
 const app = express();
 
 // Middleware
