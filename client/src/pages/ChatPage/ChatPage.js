@@ -1,26 +1,90 @@
 import React, { useEffect, useState } from "react";
 import "./ChatPage.css";
-import { chatPage } from "../../services/ChatServices";
+import { findFriends } from "../../services/ChatServices";
 import { useAuth } from "../../context/AuthContext";
+import { Layout, Input, Avatar, Spin } from "antd";
+import { PROFILE_URL } from "../../services/Constants";
 
 function ChatPage() {
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { user } = useAuth();
-  const [userData, setUserData] = useState(null);
-  useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        try {
-          const data = await chatPage({ user_id: user.id });
-          setUserData(data);
-        } catch (error) {
-          console.error("Error fetching chat data:", error);
-        }
-      };
 
-      fetchData();
+  useEffect(() => {
+    console.log(query);
+    if (!query) {
+      setUsers([]);
+      return;
     }
-  }, [user]);
-  return <section>{JSON.stringify(userData)}</section>;
+
+    const timer = setTimeout(() => {
+      handleSearch(query);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleSearch = async (searchTerm) => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await findFriends(JSON.stringify(searchTerm));
+
+      if (data.users.length) {
+        setUsers(data.users);
+        console.log(users);
+      } else {
+        setError("No User Found");
+      }
+    } catch (err) {
+      console.log("Failed to fetch results. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Layout className="chatPage">
+      <section className="chatRoom"></section>
+      <section className="chats">
+        <h1>Chats</h1>
+        <Input
+          placeholder="Search Friends"
+          className="searchBar"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        ></Input>
+        <div className="friendsContainer">
+          {loading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin tip="Loading..." />
+            </div>
+          )}
+          {error && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>{error}</div>
+          )}
+
+          {users.map((user) => (
+            <div key={user.username} className="friendContainer">
+              <div className="profilePicture">
+                <Avatar
+                  className="profile"
+                  style={{
+                    "--profile-bg": `url(${PROFILE_URL}/default.png)`,
+                  }}
+                ></Avatar>
+              </div>
+              <div className="friendDetails">
+                <span>{`${user.firstname} ${user.lastname}`}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </Layout>
+  );
 }
 
 export default ChatPage;

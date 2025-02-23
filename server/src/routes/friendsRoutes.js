@@ -1,8 +1,8 @@
 import express from "express";
-import { findUsers } from "../controllers/friendsController.js";
+import { findFriends } from "../controllers/friendsController.js";
 
 const router = express.Router();
 
-router.get("/findUsers", findUsers);
+router.get("/findFriends", findFriends);
 
 export default router;

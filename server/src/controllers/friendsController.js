@@ -1,14 +1,19 @@
 import User from "../models/User.js";
 
-export const findUsers = async (req, res) => {
+export const findFriends = async (req, res) => {
   try {
-    const { query } = req.body;
+    const { searchTerm } = req.query;
+    console.log(req.query);
+    if (!searchTerm) {
+      return res.status(400).json({ message: "No search Term" });
+    }
+
     const textUsers = await User.find({
-      $text: { $search: query },
+      $text: { $search: searchTerm },
     }).sort({ score: { $meta: "textScore" } });
 
     const regexUsers = await User.find({
-      username: { $regex: query, $options: "i" },
+      username: { $regex: searchTerm, $options: "i" },
     });
 
     const users = [...textUsers, ...regexUsers].filter(
@@ -21,7 +26,7 @@ export const findUsers = async (req, res) => {
       return res.status(400).json({ message: "No users found" });
     }
 
-    res.status(201).json({ users });
+    res.status(200).json({ users });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
