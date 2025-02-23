@@ -1,0 +1,68 @@
+.chatPage {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 7vh);
+  background-color: #f2f9ff;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: hidden;
+}
+
+.chatRoom {
+  width: 72%;
+  margin: 10px;
+  background-color: #e195ab;
+  border-radius: 10px;
+}
+
+.chats {
+  width: 24%;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #e195ab;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.searchBar {
+  width: 90%;
+  margin: 10px;
+  padding: 0.5rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.searchBar:focus {
+  width: 90%;
+  margin: 10px;
+  padding: 0.5rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.friendsContainer {
+  width: 90%;
+  margin: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.friendContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: start;
+  background-color: #d4809a;
+  border-bottom: 1px solid #fff5d7;
+  padding: 10px;
+}
+
+.profile {
+  background-image: var(--profile-bg);
+  background-size: cover;
+  width: 3.1vw;
+  height: 3.2vw;
+}
+
+.friendDetails {
+  padding: 10px;
+}

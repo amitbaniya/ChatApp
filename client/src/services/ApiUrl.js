@@ -22,3 +22,9 @@ export const ChatAPI = axios.create({
   },
 });
 
+export const FriendsAPI = axios.create({
+  baseURL: API_URL + "/api/friends",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
