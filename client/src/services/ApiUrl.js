@@ -14,3 +14,11 @@ export const ProfilePictureAPI = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const ChatAPI = axios.create({
+  baseURL: API_URL + "/api/chatPage",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+

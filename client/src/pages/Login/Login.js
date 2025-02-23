@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import "./Login.css";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/AuthServices";
 import { useAuth } from "../../context/AuthContext";
 
 function Login() {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
   const handleLogin = async (values) => {
     try {
       const data = await loginUser(JSON.stringify(values));
       console.log("Login success:", data);
 
-      login(data.token, data.user);
+      login(data.user, data.token);
+      navigate("/");
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }
