@@ -1,7 +1,8 @@
-import { ChatAPI, FriendsAPI } from "./ApiUrl";
+import ApiInstance from "./ApiInstance";
+
 export const chatPage = async (credentials) => {
   try {
-    const response = await ChatAPI.get("/", {
+    const response = await ApiInstance.get("/api/chatPage/", {
       params: credentials,
     });
     return response.data;
@@ -13,7 +14,7 @@ export const chatPage = async (credentials) => {
 
 export const findFriends = async (searchTerm) => {
   try {
-    const response = await FriendsAPI.get("/findFriends", {
+    const response = await ApiInstance.get("/api/friends/findFriends", {
       params: { searchTerm: searchTerm },
     });
 

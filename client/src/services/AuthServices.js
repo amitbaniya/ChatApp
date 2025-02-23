@@ -1,8 +1,8 @@
-import { AuthAPI } from "./ApiUrl";
+import ApiInstance from "./ApiInstance";
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await AuthAPI.post("/login", credentials);
+    const response = await ApiInstance.post("/api/auth/login", credentials);
     return response.data;
   } catch (error) {
     console.error("Login error:", error.response?.data || error.message);
@@ -12,7 +12,7 @@ export const loginUser = async (credentials) => {
 
 export const registerUser = async (credentials) => {
   try {
-    const response = await AuthAPI.post("/register", credentials);
+    const response = await ApiInstance.post("/api/auth/register", credentials);
     return response.data;
   } catch (error) {
     console.error("Registration error:", error.response?.data || error.message);

@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import friendsRoutes from "./routes/friendsRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import authMiddleware from "./middleware/authMiddleware.js"; // Correct the import path
 const app = express();
 
 // Middleware
@@ -23,9 +24,9 @@ dotenv.config();
 app.use("/uploads/profiles", express.static("uploads/profiles"));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/upload", uploadRoutes);
-app.use("/api/friends", friendsRoutes);
-app.use("/api/chatPage", chatRoutes);
+app.use("/api/upload", authMiddleware, uploadRoutes);
+app.use("/api/friends", authMiddleware, friendsRoutes);
+app.use("/api/chatPage", authMiddleware, chatRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
