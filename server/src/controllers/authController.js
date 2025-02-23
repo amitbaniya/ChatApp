@@ -74,7 +74,6 @@ export const registerUser = async (req, res) => {
       email,
       phoneNumber,
       password: hashedPassword,
-      profilePicture: "uploads/default.png",
     });
 
     await newUser.save();

@@ -13,9 +13,9 @@ function ChatPage() {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log(query);
     if (!query) {
       setUsers([]);
+      setError("");
       return;
     }
 
@@ -30,13 +30,13 @@ function ChatPage() {
     setLoading(true);
     setError("");
     try {
-      const data = await findFriends(JSON.stringify(searchTerm));
+      const data = await findFriends(searchTerm);
 
       if (data.users.length) {
         setUsers(data.users);
-        console.log(users);
       } else {
-        setError("No User Found");
+        setUsers([]);
+        setError("No Users Found");
       }
     } catch (err) {
       console.log("Failed to fetch results. Please try again.");
@@ -72,7 +72,7 @@ function ChatPage() {
                 <Avatar
                   className="profile"
                   style={{
-                    "--profile-bg": `url(${PROFILE_URL}/default.png)`,
+                    "--profile-bg": `url(${PROFILE_URL}/${user.profilePicture})`,
                   }}
                 ></Avatar>
               </div>

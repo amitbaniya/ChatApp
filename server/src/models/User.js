@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -13,5 +13,5 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-UserSchema.index({ firstname: "text", lastname: "text" });
+
 export default mongoose.model("User", UserSchema);
