@@ -36,7 +36,7 @@
   width: 30vw;
 }
 
-.ant-input {
+.input {
   font-family: "Quicksand", serif;
   font-weight: 500;
   font-size: 0.9vw;
@@ -49,24 +49,24 @@
   padding: 0 11px;
 }
 
-.ant-input::placeholder {
+.input::placeholder {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   color: #e195ab;
   transition: font-size 0.5s ease;
 }
-.ant-input:hover {
+.input:hover {
   background-color: #f2f9ff;
   border-bottom: 1px solid #e195ab;
   font-size: 1vw;
 }
 
-.ant-input:hover::placeholder {
+.input:hover::placeholder {
   color: #ffcce1;
 }
 
-.ant-input:focus {
+.input:focus {
   border-bottom: 2px solid #e195ab;
   background-color: transparent;
   box-shadow: none;
@@ -142,14 +142,14 @@
   .authHeading {
     font-size: 70px;
   }
-  .ant-input {
+  .input {
     font-size: 2vw;
   }
 
-  .ant-input:hover {
+  .input:hover {
     font-size: 2.3vw;
   }
-  .ant-input:focus {
+  .input:focus {
     font-size: 2.3vw;
   }
   .authIavigate-button {
@@ -174,11 +174,11 @@
   .authHeading {
     font-size: 80px;
   }
-  .ant-input {
+  .input {
     font-size: 1.5vw;
   }
 
-  .ant-input:hover {
+  .input:hover {
     font-size: 2vw;
   }
 

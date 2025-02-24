@@ -29,20 +29,20 @@ function Register() {
         >
           <Space className="nameContainer" wrap>
             <Form.Item name="firstname" style={{ marginBottom: "32px" }}>
-              <Input placeholder="First Name" />
+              <Input placeholder="First Name" className="input" />
             </Form.Item>
             <Form.Item name="lastname" style={{ marginBottom: "32px" }}>
-              <Input placeholder="Last Name" />
+              <Input placeholder="Last Name" className="input" />
             </Form.Item>
           </Space>
           <Form.Item name="username" style={{ marginBottom: "32px" }}>
-            <Input placeholder="Username" />
+            <Input placeholder="Username" className="input" />
           </Form.Item>
           <Form.Item name="email" style={{ marginBottom: "32px" }}>
-            <Input placeholder="Email" />
+            <Input placeholder="Email" className="input" />
           </Form.Item>
           <Form.Item name="phoneNumber" style={{ marginBottom: "32px" }}>
-            <Input placeholder="Phone Number" />
+            <Input placeholder="Phone Number" className="input" />
           </Form.Item>
 
           <Form.Item name="password" style={{ marginBottom: "10px" }}>
@@ -50,7 +50,7 @@ function Register() {
               <Input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className="password-input"
+                className="password-input Input"
               />
               <Button
                 type="text"
