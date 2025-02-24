@@ -26,7 +26,7 @@
   display: flex;
   margin: 1vw;
   border-radius: 25px;
-  padding: 1vw 1.5vw;
+  padding: 0.5vw 0.5vw;
   background-color: #ab7384;
   color: #4a1c2e;
 }
@@ -37,13 +37,45 @@
   box-shadow: none;
   text-align: left !important;
   width: 100%;
+  color: inherit;
+  transition: font-size 0.5s ease !important;
+  font-size: 1vw;
 }
 .messageInput::placeholder {
   opacity: 75%;
   text-align: inherit;
+  font-size: 1vw;
+}
+
+.messageInput:hover {
+  background-color: inherit;
+  font-size: 1.3vw;
 }
 
 .messageInput:focus {
+  background-color: inherit;
   box-shadow: none;
-  border: none;
+  pointer-events: none;
+}
+
+.sendButton {
+  margin: 0.5vw;
+  font-size: 1.5vw;
+  transition: font-size 0.5s ease !important;
+}
+
+.sendButton:hover {
+  opacity: 75%;
+  font-size: 1.7vw;
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 1vw;
+  width: auto;
+  height: 100%;
+  background-color: #ab7384;
+  border-radius: 25px;
+  overflow-y: auto;
 }
