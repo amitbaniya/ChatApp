@@ -1,14 +1,24 @@
+import ChatRoom from "../models/ChatRoom.js";
 import User from "../models/User.js";
 
-export const chatPage = async (req, res) => {
+export const messages = async (req, res) => {
   try {
-    const { user_id } = req.query;
+    const { userId, friendId } = req.query;
 
-    if (!user_id) {
+    if (!userId || !friendId) {
       return res.status(400).json({ message: "User ID is required" });
     }
-    const user = await User.findOne({ _id: user_id });
+    const chatRoomExists = await ChatRoom.exists({
+      isGroupChat: false,
+      members: { $all: [userId, friendId] },
+    });
 
+    if (!chatRoomExists) {
+      ChatRoom.create({
+        isGroupChat: false,
+        members: [userId, friendId],
+      });
+    }
     res.status(200).json({ user });
   } catch {
     console.error("Error in chatPage API:", error);

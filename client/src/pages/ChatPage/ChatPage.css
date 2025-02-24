@@ -9,6 +9,8 @@
 }
 
 .chatRoom {
+  display: flex;
+  flex-direction: column;
   width: 72%;
   margin: 10px;
   max-height: calc(100vh - 9.5vh);

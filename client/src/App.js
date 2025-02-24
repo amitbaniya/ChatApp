@@ -5,20 +5,23 @@ import Register from "./pages/Register/Register";
 import ChatPage from "./pages/ChatPage/ChatPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./routes/PrivateRoutes";
+import { ChatProvider } from "./context/ChatContext";
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+    <ChatProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
 
-        <Route element={<PrivateRoutes />}>
-          <Route path="/" element={<ChatPage />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route element={<PrivateRoutes />}>
+            <Route path="/" element={<ChatPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ChatProvider>
   );
 }
 

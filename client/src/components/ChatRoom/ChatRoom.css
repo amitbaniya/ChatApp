@@ -1,0 +1,49 @@
+.chatHeader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1vw;
+  border-radius: 25px;
+  padding: 1vw 1.5vw;
+  background-color: #ab7384;
+  color: #4a1c2e;
+}
+
+.chatProfile {
+  background-image: var(--profile-bg);
+  background-size: cover;
+  width: 4vw;
+  height: 4vw;
+}
+
+.chatName {
+  margin-left: 1vw;
+  font-weight: 500;
+  font-size: 1.2vw;
+}
+
+.messageInputContainer {
+  display: flex;
+  margin: 1vw;
+  border-radius: 25px;
+  padding: 1vw 1.5vw;
+  background-color: #ab7384;
+  color: #4a1c2e;
+}
+
+.messageInput {
+  background-color: #ab7384;
+  border: none;
+  box-shadow: none;
+  text-align: left !important;
+  width: 100%;
+}
+.messageInput::placeholder {
+  opacity: 75%;
+  text-align: inherit;
+}
+
+.messageInput:focus {
+  box-shadow: none;
+  border: none;
+}

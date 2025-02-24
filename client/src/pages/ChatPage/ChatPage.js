@@ -5,6 +5,8 @@ import { Layout, Input, Spin } from "antd";
 import UserList from "../../components/UserList/UserList";
 import { getFriendsList, handleSearch } from "./Functions";
 
+import ChatRoom from "../../components/ChatRoom/ChatRoom";
+
 function ChatPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
@@ -28,7 +30,9 @@ function ChatPage() {
 
   return (
     <Layout className="chatPage">
-      <section className="chatRoom"></section>
+      <section className="chatRoom">
+        <ChatRoom />
+      </section>
       <section className="chats">
         <h1>Chats</h1>
         <Input
