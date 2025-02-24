@@ -1,49 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "./ChatPage.css";
-import { findFriends } from "../../services/ChatServices";
 import { useAuth } from "../../context/AuthContext";
-import { Layout, Input, Avatar, Spin } from "antd";
-import { PROFILE_URL } from "../../services/Constants";
+import { Layout, Input, Spin } from "antd";
+import UserList from "../../components/UserList/UserList";
+import { getFriendsList, handleSearch } from "./Functions";
 
 function ChatPage() {
-  const [query, setQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!query) {
-      setUsers([]);
+    if (!searchTerm) {
       setError("");
+      getFriendsList(user.id, setUsers, setLoading, setError);
       return;
     }
 
     const timer = setTimeout(() => {
-      handleSearch(query);
+      handleSearch(searchTerm, setUsers, setLoading, setError);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleSearch = async (searchTerm) => {
-    setLoading(true);
-    setError("");
-    try {
-      const data = await findFriends(searchTerm);
-
-      if (data.users.length) {
-        setUsers(data.users);
-      } else {
-        setUsers([]);
-        setError("No Users Found");
-      }
-    } catch (err) {
-      console.log("Failed to fetch results. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [searchTerm]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Layout className="chatPage">
@@ -53,8 +34,8 @@ function ChatPage() {
         <Input
           placeholder="Search Friends"
           className="searchBar"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         ></Input>
         <div className="friendsContainer">
           {loading && (
@@ -66,21 +47,7 @@ function ChatPage() {
             <div style={{ textAlign: "center", margin: "20px 0" }}>{error}</div>
           )}
 
-          {users.map((user) => (
-            <div key={user.username} className="friendContainer">
-              <div className="profilePicture">
-                <Avatar
-                  className="profile"
-                  style={{
-                    "--profile-bg": `url(${PROFILE_URL}/${user.profilePicture})`,
-                  }}
-                ></Avatar>
-              </div>
-              <div className="friendDetails">
-                <span>{`${user.firstname} ${user.lastname}`}</span>
-              </div>
-            </div>
-          ))}
+          <UserList users={users} />
         </div>
       </section>
     </Layout>
