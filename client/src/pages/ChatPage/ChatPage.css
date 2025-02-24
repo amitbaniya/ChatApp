@@ -20,7 +20,7 @@
 
 .chats {
   width: 24%;
-  max-height: calc(100vh - 9.5vh);
+  height: auto;
   margin: 10px;
   border-radius: 10px;
   background-color: #e195ab;
