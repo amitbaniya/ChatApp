@@ -65,16 +65,13 @@ export const getFriends = async (req, res) => {
 
     const user = await User.findById(userId).populate(
       "friends",
-      "firstname lastname profilePicture"
+      "firstname lastname username profilePicture"
     );
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
 
     const friends = user.friends.map((friend) => ({
       firstname: friend.firstname,
       lastname: friend.lastname,
+      username: friend.username,
       profilePicture: friend.profilePicture,
     }));
 

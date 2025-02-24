@@ -21,7 +21,23 @@ export const findFriends = async (searchTerm) => {
     return response.data;
   } catch (error) {
     console.error(
-      "Chat Page Friends error:",
+      "Chat Page Users List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const getFriends = async (userId) => {
+  try {
+    const response = await ApiInstance.get("/api/friends/getFriends", {
+      params: { userId: userId },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Chat Page Friends List error:",
       error.response?.data || error.message
     );
     throw error;

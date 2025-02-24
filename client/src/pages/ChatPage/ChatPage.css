@@ -50,22 +50,3 @@
   border-top-right-radius: 10px;
   overflow: auto;
 }
-.friendContainer {
-  display: flex;
-  justify-content: flex-start;
-  align-items: start;
-  background-color: #d4809a;
-  border-bottom: 1px solid #fff5d7;
-  padding: 10px;
-}
-
-.profile {
-  background-image: var(--profile-bg);
-  background-size: cover;
-  width: 3.1vw;
-  height: 3.2vw;
-}
-
-.friendDetails {
-  padding: 10px;
-}
