@@ -40,7 +40,7 @@ function Login() {
           autoComplete="off"
         >
           <Form.Item name="username" style={{ marginBottom: "32px" }}>
-            <Input placeholder="Username" />
+            <Input placeholder="Username" className="input" />
           </Form.Item>
 
           <Form.Item name="password" style={{ marginBottom: "10px" }}>
@@ -48,7 +48,7 @@ function Login() {
               <Input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className="passwordInput"
+                className="passwordInput input"
               />
               <Button
                 type="text"
