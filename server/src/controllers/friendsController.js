@@ -48,6 +48,7 @@ export const addFriend = async (req, res) => {
     }
 
     user.friends.push(friendId);
+    friend.friends.push(userId);
     await user.save();
     res.status(200).json({ message: "Friend added successfully" });
   } catch (error) {
@@ -77,6 +78,24 @@ export const getFriends = async (req, res) => {
     }));
 
     res.status(200).json({ friends });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getFriend = async (req, res) => {
+  try {
+    const { userId } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ message: "No user ID provided" });
+    }
+
+    const friend = await User.findById(userId).select(
+      "_id firstname lastname profilePicture"
+    );
+
+    res.status(200).json({ friend });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
