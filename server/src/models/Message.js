@@ -12,7 +12,7 @@ const MessageSchema = new mongoose.Schema(
       ref: "ChatRoom",
       required: true,
     },
-    text: { type: String, default: "" },
+    message: { type: String, default: "" },
     fileUrl: { type: String, default: "" },
     status: {
       type: String,

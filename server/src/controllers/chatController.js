@@ -1,4 +1,5 @@
 import ChatRoom from "../models/ChatRoom.js";
+import Message from "../models/Message.js";
 
 export const getChatRoom = async (req, res) => {
   try {
@@ -52,6 +53,48 @@ export const createChatRoom = async (req, res) => {
     return res.status(201).json({ message: "Chat room created", chatRoom });
   } catch (err) {
     console.error("Error in createChatRoom API:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const sendMessage = async (req, res) => {
+  try {
+    const { message, userId, chatRoomId } = req.body;
+
+    if (!message || !userId || !chatRoomId) {
+      return res
+        .status(400)
+        .json({ message: "message, userId, chatRoom all are required" });
+    }
+
+    const newMessage = await Message.create({
+      sender: userId,
+      chatRoom: chatRoomId,
+      message: message,
+    });
+
+    return res.status(201).json({ message: "Message Sent", newMessage });
+  } catch (err) {
+    console.error("Error in new message API:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getMessages = async (req, res) => {
+  try {
+    const { chatRoomId } = req.query;
+
+    if (!chatRoomId) {
+      return res.status(400).json({ message: " chatRoom id are required" });
+    }
+
+    const messages = await Message.find({
+      chatRoom: chatRoomId,
+    });
+
+    return res.status(201).json({ messages });
+  } catch (err) {
+    console.error("Error in get message API:", err);
     return res.status(500).json({ message: "Server error" });
   }
 };
