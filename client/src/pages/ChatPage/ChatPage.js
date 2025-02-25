@@ -37,6 +37,7 @@ function ChatPage() {
       setLoading,
       setError
     );
+    setCurrentChat(friend);
     navigate(`/${chatRoom._id}`);
   };
   return (

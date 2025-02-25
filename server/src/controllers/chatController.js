@@ -3,7 +3,11 @@ import Message from "../models/Message.js";
 
 export const getChatRoom = async (req, res) => {
   try {
-    const { userId, friendId } = req.query;
+    const { userId, friendId, chatRoomId } = req.query;
+    if (chatRoomId) {
+      const chatRoom = await ChatRoom.findById(chatRoomId);
+      return res.status(200).json({ chatRoom });
+    }
 
     if (!userId || !friendId) {
       return res.status(400).json({ message: "User ID is required" });

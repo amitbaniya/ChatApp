@@ -84,3 +84,37 @@ export const getChatRoom = async (userId, friendId) => {
     throw error;
   }
 };
+
+export const getChatRoomData = async (chatRoomId) => {
+  try {
+    const response = await ApiInstance.get("/api/chatPage/chatRoom", {
+      params: {
+        chatRoomId: chatRoomId,
+      },
+    });
+
+    return response.data.chatRoom;
+  } catch (error) {
+    console.error(
+      "Chat Page Room List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const getFriend = async (userId) => {
+  try {
+    const response = await ApiInstance.get("/api/friends/getFriend", {
+      params: { userId: userId },
+    });
+
+    return response.data.friend;
+  } catch (error) {
+    console.error(
+      "Chat Page Friends List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
