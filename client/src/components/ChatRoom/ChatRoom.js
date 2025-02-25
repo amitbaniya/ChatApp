@@ -9,8 +9,7 @@ import { useParams } from "react-router-dom";
 function ChatRoom() {
   const { chatRoomId } = useParams();
   const { currentChat, setCurrentChat } = useChat();
-  const [searchMessage, setMessage] = useState("");
-
+  const [messageInput, setMessage] = useState("");
   useEffect(() => {
     if (chatRoomId && (!currentChat || currentChat.id !== chatRoomId)) {
       const fetchedChat = {
@@ -51,7 +50,7 @@ function ChatRoom() {
             <Input
               placeholder="Send message"
               className="messageInput"
-              value={searchMessage}
+              value={messageInput}
               onChange={(e) => setMessage(e.target.value)}
             ></Input>
             <SendOutlined className="sendButton" onClick={handleSend} />
