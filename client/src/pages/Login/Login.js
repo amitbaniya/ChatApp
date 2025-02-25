@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import "./Login.css";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/AuthServices";
 import { useAuth } from "../../context/AuthContext";
 
@@ -10,18 +10,22 @@ function Login() {
   const { user, login } = useAuth();
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate(from, { replace: true });
     }
   }, [user, navigate]);
 
   const handleLogin = async (values) => {
     try {
       const data = await loginUser(JSON.stringify(values));
-      console.log("Login success:", data);
+      console.log("Login success:");
 
       login(data.user, data.token);
+      navigate(from, { replace: true });
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }
