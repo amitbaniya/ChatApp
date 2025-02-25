@@ -3,11 +3,19 @@ import { Avatar } from "antd";
 import "./UserList.css";
 import { PROFILE_URL } from "../../services/Constants";
 
-function UserList({ users }) {
+function UserList({ users, onUserClick }) {
+  const handleChatRoom = (user) => {
+    onUserClick(user);
+  };
+
   return (
     <>
       {users.map((user) => (
-        <div key={user.username} className="friendContainer">
+        <div
+          key={user.username}
+          className="friendContainer"
+          onClick={() => handleChatRoom(user)}
+        >
           <div className="profilePicture">
             <Avatar
               className="profile"

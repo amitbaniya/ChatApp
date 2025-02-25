@@ -22,7 +22,6 @@ function Login() {
       console.log("Login success:", data);
 
       login(data.user, data.token);
-      navigate("/");
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }
