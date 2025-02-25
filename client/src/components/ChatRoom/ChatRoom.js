@@ -17,7 +17,6 @@ function ChatRoom() {
         firstname: "John",
         lastname: "Doe",
       };
-      console.log("Setting current chat:", fetchedChat);
       setCurrentChat(fetchedChat);
     }
   }, [chatRoomId, currentChat, setCurrentChat]);
