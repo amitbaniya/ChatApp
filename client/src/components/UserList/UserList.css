@@ -7,6 +7,11 @@
   padding: 10px;
 }
 
+.friendContainer:hover {
+  background-color: #ab7384;
+  cursor: pointer;
+}
+
 .profile {
   background-image: var(--profile-bg);
   background-size: cover;

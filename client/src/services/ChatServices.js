@@ -43,3 +43,44 @@ export const getFriends = async (userId) => {
     throw error;
   }
 };
+
+export const newChatRoom = async (userId, friendId) => {
+  try {
+    const response = await ApiInstance.post("/api/chatPage/chatRoom", {
+      userId: userId,
+      friendId: friendId,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Chat Page Room List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const getChatRoom = async (userId, friendId) => {
+  try {
+    const response = await ApiInstance.get("/api/chatPage/chatRoom", {
+      params: {
+        userId: userId,
+        friendId: friendId,
+      },
+    });
+
+    if (!response.data.chatRoom) {
+      const chatRoom = newChatRoom(userId, friendId);
+      return chatRoom;
+    }
+
+    return response.data.chatRoom;
+  } catch (error) {
+    console.error(
+      "Chat Page Room List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};

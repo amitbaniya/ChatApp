@@ -1,5 +1,8 @@
-import { findFriends, getFriends } from "../../services/ChatServices";
-
+import {
+  findFriends,
+  getChatRoom,
+  getFriends,
+} from "../../services/ChatServices";
 export const handleSearch = async (
   searchTerm,
   setUsers,
@@ -39,6 +42,30 @@ export const getFriendsList = async (
     } else {
       setUsers([]);
       setError("No Friends");
+    }
+  } catch (err) {
+    console.log("Failed to fetch results. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const handleChatRoom = async (
+  userId,
+  friendId,
+  setLoading,
+  setError
+) => {
+  setLoading(true);
+  setError("");
+  try {
+    const chatRoom = await getChatRoom(userId, friendId);
+
+    if (chatRoom) {
+      return chatRoom;
+    } else {
+      setError("No Users Found");
+      return null;
     }
   } catch (err) {
     console.log("Failed to fetch results. Please try again.");

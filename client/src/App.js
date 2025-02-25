@@ -6,6 +6,7 @@ import ChatPage from "./pages/ChatPage/ChatPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import { ChatProvider } from "./context/ChatContext";
+import ChatRoom from "./components/ChatRoom/ChatRoom";
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<ChatPage />} />
+            <Route path="/" element={<ChatPage />}>
+              <Route path="/:chatRoomId" element={<ChatRoom />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

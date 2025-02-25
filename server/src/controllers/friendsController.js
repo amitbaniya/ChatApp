@@ -65,10 +65,11 @@ export const getFriends = async (req, res) => {
 
     const user = await User.findById(userId).populate(
       "friends",
-      "firstname lastname username profilePicture"
+      "_id firstname lastname username profilePicture"
     );
 
     const friends = user.friends.map((friend) => ({
+      _id: friend._id,
       firstname: friend.firstname,
       lastname: friend.lastname,
       username: friend.username,
