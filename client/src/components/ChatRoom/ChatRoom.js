@@ -40,6 +40,7 @@ function ChatRoom() {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
+    
   }, [messages]);
   const handleChatRoomData = async (chatRoomId) => {
     try {

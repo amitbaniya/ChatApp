@@ -50,7 +50,7 @@ function Register() {
               <Input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className="password-input Input"
+                className="password-input input"
               />
               <Button
                 type="text"
