@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useChat } from "../../context/ChatContext";
 import { Layout, Input, Spin } from "antd";
 import UserList from "../../components/UserList/UserList";
-import { getFriendsList, handleSearch, handleChatRoom } from "./Functions";
+import { handleSearch, handleChatRoom, ChatList } from "./Functions";
 import { Outlet, useNavigate } from "react-router-dom";
 
 function ChatPage() {
@@ -19,7 +19,7 @@ function ChatPage() {
   useEffect(() => {
     if (!searchTerm) {
       setError("");
-      getFriendsList(user.id, setUsers, setLoading, setError);
+      ChatList(user.id, setUsers, setLoading, setError);
       return;
     }
 

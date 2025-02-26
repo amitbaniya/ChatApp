@@ -44,6 +44,21 @@ export const getFriends = async (userId) => {
   }
 };
 
+export const getChatList = async (userId) => {
+  try {
+    const response = await ApiInstance.get("/api/chatPage/chats/chatList", {
+      params: { userId: userId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Chat Page Friends List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
 export const newChatRoom = async (userId, friendId) => {
   try {
     const response = await ApiInstance.post("/api/chatPage/chatRoom", {

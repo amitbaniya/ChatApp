@@ -1,5 +1,7 @@
+import { update } from "three/examples/jsm/libs/tween.module.js";
 import ChatRoom from "../models/ChatRoom.js";
 import Message from "../models/Message.js";
+import User from "../models/User.js";
 
 export const getChatRoom = async (req, res) => {
   try {
@@ -77,6 +79,12 @@ export const sendMessage = async (req, res) => {
       message: message,
     });
 
+    await ChatRoom.findByIdAndUpdate(
+      chatRoomId,
+      { lastMessage: newMessage._id },
+      { new: true }
+    );
+
     return res.status(201).json({ message: "Message Sent", newMessage });
   } catch (err) {
     console.error("Error in new message API:", err);
@@ -96,6 +104,43 @@ export const getMessages = async (req, res) => {
     }).sort({ createdAt: 1 });
 
     return res.status(201).json({ messages });
+  } catch (err) {
+    console.error("Error in get message API:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const chatList = async (req, res) => {
+  try {
+    const { userId } = req.query;
+
+    const user = await User.findById(userId).populate("friends");
+    const friends = user.friends;
+    const chatRooms = await ChatRoom.find({
+      members: { $in: [userId] },
+    })
+      .populate("lastMessage")
+      .sort({ updateAt: -1 });
+
+    const users = await Promise.all(
+      chatRooms.map(async (chatRoom) => {
+        const otherMemberId = chatRoom.members.find(
+          (member) => member.toString() !== userId
+        );
+        const otherMember = await User.findById(otherMemberId);
+
+        return {
+          _id: otherMember._id,
+          firstname: otherMember.firstname,
+          lastname: otherMember.lastname,
+          username: otherMember.username,
+          profilePicture: otherMember.profilePicture,
+          lastMessage: chatRoom.lastMessage,
+        };
+      })
+    );
+
+    return res.status(200).json({ users });
   } catch (err) {
     console.error("Error in get message API:", err);
     return res.status(500).json({ message: "Server error" });
