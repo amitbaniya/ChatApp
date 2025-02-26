@@ -87,14 +87,13 @@ export const sendMessage = async (req, res) => {
 export const getMessages = async (req, res) => {
   try {
     const { chatRoomId } = req.query;
-
     if (!chatRoomId) {
       return res.status(400).json({ message: " chatRoom id are required" });
     }
 
     const messages = await Message.find({
       chatRoom: chatRoomId,
-    });
+    }).sort({ createdAt: 1 });
 
     return res.status(201).json({ messages });
   } catch (err) {
