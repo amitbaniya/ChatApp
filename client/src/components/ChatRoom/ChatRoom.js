@@ -31,9 +31,8 @@ function ChatRoom() {
       await handleChatRoomFriend(friendId);
       await handleGetMessages(chatRoomId);
     };
-    if (!currentChat || messages.length === 0) {
-      fetchChatRoomData();
-    }
+
+    fetchChatRoomData();
   }, [chatRoomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
