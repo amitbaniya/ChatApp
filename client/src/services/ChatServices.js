@@ -50,7 +50,6 @@ export const newChatRoom = async (userId, friendId) => {
       userId: userId,
       friendId: friendId,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -110,6 +109,38 @@ export const getFriend = async (userId) => {
     });
 
     return response.data.friend;
+  } catch (error) {
+    console.error(
+      "Chat Page Friends List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const getMessages = async (chatRoomId) => {
+  try {
+    const response = await ApiInstance.get("/api/chatPage/chatRoom/messages", {
+      params: { chatRoomId: chatRoomId },
+    });
+    return response.data.messages;
+  } catch (error) {
+    console.error(
+      "Chat Page Friends List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const sendMessage = async (chatRoomId, userId, message) => {
+  try {
+    const response = await ApiInstance.post("/api/chatPage/chatRoom/message", {
+      chatRoomId: chatRoomId,
+      userId: userId,
+      message: message,
+    });
+    return response.data.newMessage;
   } catch (error) {
     console.error(
       "Chat Page Friends List error:",

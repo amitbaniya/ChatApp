@@ -5,21 +5,29 @@ import { Avatar, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useChat } from "../../context/ChatContext";
 import { useParams } from "react-router-dom";
-import { getChatRoomData, getFriend } from "../../services/ChatServices";
+import {
+  getChatRoomData,
+  getFriend,
+  getMessages,
+  sendMessage,
+} from "../../services/ChatServices";
 import { useAuth } from "../../context/AuthContext";
+import Messages from "./components/Messages";
 
 function ChatRoom() {
   const { chatRoomId } = useParams();
-  const { currentChat, setCurrentChat } = useChat();
+  const { currentChat, setCurrentChat, messages, setMessages, addMessage } =
+    useChat();
   const { user } = useAuth();
 
-  const [messageInput, setMessage] = useState("");
+  const [messageInput, setMessageInput] = useState("");
   useEffect(() => {
     const fetchChatRoomData = async () => {
       const friendId = await handleChatRoomData(chatRoomId);
       await handleChatRoomFriend(friendId);
+      await handleGetMessages(chatRoomId);
     };
-    if (!currentChat) {
+    if (!currentChat || messages.length === 0) {
       fetchChatRoomData();
     }
   }, [chatRoomId]);
@@ -41,15 +49,30 @@ function ChatRoom() {
   const handleChatRoomFriend = async (friendId) => {
     try {
       const friend = await getFriend(friendId);
-      console.log(friend);
+
       setCurrentChat(friend);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }
   };
 
-  const handleSend = () => {
-    console.log("Message sent");
+  const handleGetMessages = async (chatRoomId) => {
+    try {
+      const messages = await getMessages(chatRoomId);
+      setMessages(messages);
+    } catch (err) {
+      console.log(err.response?.data || "An error occurred.");
+    }
+  };
+
+  const handleSend = async () => {
+    try {
+      const message = await sendMessage(chatRoomId, user.id, messageInput);
+      setMessageInput("");
+      addMessage(message);
+    } catch (err) {
+      console.log(err.response?.data || "An error occurred.");
+    }
   };
 
   return (
@@ -71,13 +94,21 @@ function ChatRoom() {
               {`${currentChat.firstname} ${currentChat.lastname}`}
             </h1>
           </div>
-          <div className="chatContainer"></div>
+          <div className="chatContainer">
+            {messages.length !== 0 && <Messages messages={messages} />}
+          </div>
           <div className="messageInputContainer">
             <Input
               placeholder="Send message"
               className="messageInput"
               value={messageInput}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => setMessageInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
             ></Input>
             <SendOutlined className="sendButton" onClick={handleSend} />
           </div>

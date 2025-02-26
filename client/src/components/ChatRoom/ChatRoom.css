@@ -75,7 +75,8 @@
   margin: 1vw;
   width: auto;
   height: 100%;
-  background-color: #ab7384;
+  background-color: #e195ab;
   border-radius: 25px;
   overflow-y: auto;
+  padding: 1vw 1vw;
 }

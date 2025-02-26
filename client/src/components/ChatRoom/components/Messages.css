@@ -1,0 +1,18 @@
+.messageContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.messageContainer.right {
+  justify-content: right;
+}
+
+.message {
+  background-color: #d4809a;
+  padding: 1vw;
+  border-radius: 25px;
+}
+
+.messageContainer.right .message {
+  background-color: #ab7384; /* Different color for right-aligned messages */
+}
