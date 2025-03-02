@@ -45,23 +45,24 @@ export const registerUser = async (req, res) => {
   try {
     const { firstname, lastname, username, email, phoneNumber, password } =
       req.body;
-
-    const existingEmail = await User.findOne({
-      email,
-    });
     const existingUsername = await User.findOne({
       username,
     });
+    if (existingUsername) {
+      return res.status(400).json({ message: "username" });
+    }
+    const existingEmail = await User.findOne({
+      email,
+    });
+    if (existingEmail) {
+      return res.status(400).json({ message: "email" });
+    }
+
     const existingPhoneNumber = await User.findOne({
       phoneNumber,
     });
-
-    if (existingEmail) errors.email("Email");
-    if (existingUsername) errors.username("Username");
-    if (existingPhoneNumber) errors.phoneNumber("Phone number");
-
-    if (Object.keys(errors).length > 0) {
-      return res.status(400).json({ errors });
+    if (existingPhoneNumber) {
+      return res.status(400).json({ message: "phone" });
     }
 
     const salt = await bcrypt.genSalt(10);

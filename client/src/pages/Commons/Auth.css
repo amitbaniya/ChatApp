@@ -39,10 +39,10 @@
 .input {
   font-family: "Quicksand", serif;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9vw !important;
   text-align: center;
-  color: #e195ab;
-  background-color: #f2f9ff;
+  color: #e195ab !important;
+  background-color: #f2f9ff !important;
   border: 0 none;
   border-bottom: 1px solid #ffcce1;
   border-radius: 0;
@@ -217,16 +217,20 @@
 .ant-input-status-error {
   background-color: #f2f9ff !important;
   border: 0 none !important;
-  border-bottom: 1px solid #ff2400 !important;
-  color: #ff2400;
+  border-bottom: 1px solid #b91040 !important;
+  color: #b91040;
 }
 
 .ant-form-item-explain-error {
   font-size: 10px;
-  color: #ff2400;
+  color: #b91040;
 }
 
 .errorMessage {
-  color: #ff2400;
+  color: #b91040;
   font-size: 12px;
+}
+
+.input.error {
+  border-bottom: 1px solid #b91040;
 }
