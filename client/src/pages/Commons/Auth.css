@@ -213,3 +213,20 @@
     margin: 20px 0;
   }
 }
+
+.ant-input-status-error {
+  background-color: #f2f9ff !important;
+  border: 0 none !important;
+  border-bottom: 1px solid #ff2400 !important;
+  color: #ff2400;
+}
+
+.ant-form-item-explain-error {
+  font-size: 10px;
+  color: #ff2400;
+}
+
+.errorMessage {
+  color: #ff2400;
+  font-size: 12px;
+}
