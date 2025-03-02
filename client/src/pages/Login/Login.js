@@ -7,7 +7,7 @@ import { loginUser } from "../../services/AuthServices";
 import { useAuth } from "../../context/AuthContext";
 
 function Login() {
-  const { user, login } = useAuth();
+  const { user, login, error, setError } = useAuth();
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,6 +20,7 @@ function Login() {
   }, [user, navigate]);
 
   const handleLogin = async (values) => {
+    setError("");
     try {
       const data = await loginUser(JSON.stringify(values));
       console.log("Login success:");
@@ -28,6 +29,7 @@ function Login() {
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
+      setError(err.response.data.message);
     }
   };
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -35,6 +37,7 @@ function Login() {
     <section className="authPage">
       <div className="authContainer">
         <h1 className="authHeading">LOGIN</h1>
+        {error && <div className="errorMessage">{error}</div>}
         <Form
           name="authform"
           form={form}
@@ -42,16 +45,30 @@ function Login() {
           onFinish={handleLogin}
           autoComplete="off"
         >
-          <Form.Item name="username" style={{ marginBottom: "32px" }}>
-            <Input placeholder="Username" className="input" />
+          <Form.Item
+            name="username"
+            style={{ marginBottom: "32px" }}
+            rules={[{ required: true, message: "Please enter your username" }]}
+          >
+            <Input
+              placeholder="Username"
+              className={`input ${error ? "error" : ""}`}
+              rules={[
+                { required: true, message: "Please enter your username" },
+              ]}
+            />
           </Form.Item>
 
-          <Form.Item name="password" style={{ marginBottom: "10px" }}>
+          <Form.Item
+            name="password"
+            style={{ marginBottom: "10px" }}
+            rules={[{ required: true, message: "Please enter your password" }]}
+          >
             <div className="passwordWrapper">
               <Input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className="passwordInput input"
+                className={`password Input input ${error ? "error" : ""}`}
               />
               <Button
                 type="text"
