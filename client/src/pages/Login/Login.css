@@ -1,6 +1,4 @@
 @import url(../../assets/fonts.css);
 @import url(../Commons/Auth.css);
 
-.input.error {
-  border-bottom: 1px solid #ff2400;
-}
+

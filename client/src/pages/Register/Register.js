@@ -9,10 +9,13 @@ import { useAuth } from "../../context/AuthContext";
 function Register() {
   const [form] = Form.useForm();
   const { error, setError } = useAuth();
+
   const handleRegistration = async (values) => {
+    setError("");
     try {
       const data = await registerUser(JSON.stringify(values));
       console.log("Registration success:", data);
+      form.resetFields();
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
       setError(err.response?.data.message);
@@ -23,7 +26,9 @@ function Register() {
     <section className="authPage">
       <div className="authContainer">
         <h1 className="authHeading">REGISTER</h1>
-        {error && <div className="errorMessage">{error}</div>}
+        {error && (
+          <div className="errorMessage">{error} is already registerd</div>
+        )}
         <Form
           name="registerform"
           form={form}
@@ -56,14 +61,20 @@ function Register() {
             style={{ marginBottom: "32px" }}
             rules={[{ required: true, message: "Please enter your username" }]}
           >
-            <Input placeholder="Username" className="input" />
+            <Input
+              placeholder="Username"
+              className={`input ${error === "username" ? "error" : ""}`}
+            />
           </Form.Item>
           <Form.Item
             name="email"
             style={{ marginBottom: "32px" }}
             rules={[{ required: true, message: "Please enter your email" }]}
           >
-            <Input placeholder="Email" className="input" />
+            <Input
+              placeholder="Email"
+              className={`input ${error === "email" ? "error" : ""}`}
+            />
           </Form.Item>
           <Form.Item
             name="phoneNumber"
@@ -72,7 +83,10 @@ function Register() {
               { required: true, message: "Please enter your phoneNumber" },
             ]}
           >
-            <Input placeholder="Phone Number" className="input" />
+            <Input
+              placeholder="Phone Number"
+              className={`input ${error === "phone" ? "error" : ""}`}
+            />
           </Form.Item>
 
           <Form.Item
