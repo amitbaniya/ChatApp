@@ -119,7 +119,7 @@ export const chatList = async (req, res) => {
       members: { $in: [userId] },
     })
       .populate("lastMessage")
-      .sort({ updateAt: -1 });
+      .sort({ updatedAt: -1 });
 
     const users = await Promise.all(
       chatRooms.map(async (chatRoom) => {

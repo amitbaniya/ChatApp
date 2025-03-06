@@ -6,7 +6,7 @@ import {
 } from "../../services/ChatServices";
 export const handleSearch = async (
   searchTerm,
-  setUsers,
+  setChatList,
   setLoading,
   setError
 ) => {
@@ -16,9 +16,9 @@ export const handleSearch = async (
     const data = await findFriends(searchTerm);
 
     if (data.users.length) {
-      setUsers(data.users);
+      setChatList(data.users);
     } else {
-      setUsers([]);
+      setChatList([]);
       setError("No Users Found");
     }
   } catch (err) {
@@ -28,15 +28,15 @@ export const handleSearch = async (
   }
 };
 
-export const ChatList = async (userId, setUsers, setLoading, setError) => {
+export const ChatList = async (userId, setLoading, setError, setChatList) => {
   setLoading(true);
   setError("");
   try {
     const data = await getChatList(userId);
     if (data.users.length) {
-      setUsers(data.users);
+      setChatList(data.users);
     } else {
-      setUsers([]);
+      setChatList([]);
       setError("No Chats");
     }
   } catch (err) {

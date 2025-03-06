@@ -9,22 +9,22 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 function ChatPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
-  const { setCurrentChat } = useChat();
+  const { setCurrentChat, setChatList } = useChat();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!searchTerm) {
       setError("");
-      ChatList(user.id, setUsers, setLoading, setError);
+      ChatList(user.id, setLoading, setError, setChatList);
+
       return;
     }
 
     const timer = setTimeout(() => {
-      handleSearch(searchTerm, setUsers, setLoading, setError);
+      handleSearch(searchTerm, setChatList, setLoading, setError);
     }, 500);
 
     return () => clearTimeout(timer);
@@ -63,7 +63,7 @@ function ChatPage() {
             <div style={{ textAlign: "center", margin: "20px 0" }}>{error}</div>
           )}
 
-          <UserList users={users} onUserClick={onUserClick} />
+          <UserList onUserClick={onUserClick} />
         </div>
       </section>
     </Layout>
