@@ -40,7 +40,6 @@ function ChatRoom() {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
-    
   }, [messages]);
   const handleChatRoomData = async (chatRoomId) => {
     try {
@@ -84,7 +83,7 @@ function ChatRoom() {
     try {
       const message = await sendMessage(chatRoomId, user.id, messageInput);
       setMessageInput("");
-      addMessage(message);
+      addMessage(message, chatRoomId);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }

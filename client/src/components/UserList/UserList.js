@@ -5,17 +5,16 @@ import { PROFILE_URL } from "../../services/Constants";
 import { useChat } from "../../context/ChatContext";
 import { useAuth } from "../../context/AuthContext";
 
-function UserList({ users, onUserClick }) {
-  const { currentChat } = useChat();
+function UserList({ onUserClick }) {
+  const { currentChat, chatList } = useChat();
   const { user } = useAuth();
-  console.log(users);
   const handleChatRoom = (friend) => {
     onUserClick(friend);
   };
 
   return (
     <>
-      {users.map((friend) => (
+      {chatList.map((friend) => (
         <div
           key={friend.username}
           className={`friendContainer ${
