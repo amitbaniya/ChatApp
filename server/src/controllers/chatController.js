@@ -122,21 +122,23 @@ export const chatList = async (req, res) => {
       .sort({ updatedAt: -1 });
 
     const users = await Promise.all(
-      chatRooms.map(async (chatRoom) => {
-        const otherMemberId = chatRoom.members.find(
-          (member) => member.toString() !== userId
-        );
-        const otherMember = await User.findById(otherMemberId);
+      chatRooms
+        .filter((chatRoom) => chatRoom.lastMessage) // Filter out chat rooms without a lastMessage
+        .map(async (chatRoom) => {
+          const otherMemberId = chatRoom.members.find(
+            (member) => member.toString() !== userId
+          );
+          const otherMember = await User.findById(otherMemberId);
 
-        return {
-          _id: otherMember._id,
-          firstname: otherMember.firstname,
-          lastname: otherMember.lastname,
-          username: otherMember.username,
-          profilePicture: otherMember.profilePicture,
-          lastMessage: chatRoom.lastMessage,
-        };
-      })
+          return {
+            _id: otherMember._id,
+            firstname: otherMember.firstname,
+            lastname: otherMember.lastname,
+            username: otherMember.username,
+            profilePicture: otherMember.profilePicture,
+            lastMessage: chatRoom.lastMessage,
+          };
+        })
     );
 
     return res.status(200).json({ users });
