@@ -19,4 +19,17 @@ ApiInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default ApiInstance;
+const setupInterceptors = (logout) => {
+  ApiInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        console.log("Token expired, logging out...");
+        logout();
+      }
+      return Promise.reject(error);
+    }
+  );
+};
+
+export { ApiInstance, setupInterceptors };
