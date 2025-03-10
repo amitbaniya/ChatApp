@@ -91,6 +91,25 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+export const addMessage = async (chatRoomId, userId, messageContent) => {
+  const message = new Message({
+    chatRoom: chatRoomId,
+    sender: userId,
+    message: messageContent,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  await message.save();
+
+  await ChatRoom.findByIdAndUpdate(chatRoomId, {
+    lastMessage: message._id,
+    updatedAt: new Date(),
+  });
+
+  return message;
+};
+
 export const getMessages = async (req, res) => {
   try {
     const { chatRoomId } = req.query;

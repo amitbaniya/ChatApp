@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import io from "socket.io-client";
 import "./ChatRoom.css";
-import { PROFILE_URL } from "../../services/Constants";
+import { API_URL, PROFILE_URL } from "../../services/Constants";
 import { Avatar, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useChat } from "../../context/ChatContext";
@@ -14,6 +15,8 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import Messages from "./components/Messages";
 import { useNavigate } from "react-router-dom";
+
+const socket = io(API_URL);
 
 function ChatRoom() {
   const { chatRoomId } = useParams();
@@ -36,11 +39,24 @@ function ChatRoom() {
   }, [chatRoomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    socket.emit("joinRoom", { chatRoomId });
+
+    socket.on("receiveMessage", (message) => {
+      addMessage(message, chatRoomId);
+    });
+
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, [chatRoomId, addMessage]);
+
+  useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
   const handleChatRoomData = async (chatRoomId) => {
     try {
       const chatRoomData = await getChatRoomData(chatRoomId);
@@ -63,7 +79,6 @@ function ChatRoom() {
   const handleChatRoomFriend = async (friendId) => {
     try {
       const friend = await getFriend(friendId);
-
       setCurrentChat(friend);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
@@ -80,13 +95,15 @@ function ChatRoom() {
   };
 
   const handleSend = async () => {
-    try {
-      const message = await sendMessage(chatRoomId, user.id, messageInput);
-      setMessageInput("");
-      addMessage(message, chatRoomId);
-    } catch (err) {
-      console.log(err.response?.data || "An error occurred.");
-    }
+    if (!messageInput.trim()) return;
+
+    socket.emit("sendMessage", {
+      chatRoomId,
+      userId: user.id,
+      message: messageInput,
+    });
+
+    setMessageInput("");
   };
 
   return (
