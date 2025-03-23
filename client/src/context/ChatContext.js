@@ -13,7 +13,6 @@ export const ChatProvider = ({ children }) => {
 
   const addMessage = (message, chatRoomId) => {
     setMessages((prevMessages) => [...prevMessages, message]);
-    console.log(chatList);
     setChatList((prevChatList) =>
       prevChatList
         .map((chatRoom) =>
@@ -27,7 +26,6 @@ export const ChatProvider = ({ children }) => {
             new Date(a.lastMessage?.updatedAt)
         )
     );
-    
   };
 
   const value = {

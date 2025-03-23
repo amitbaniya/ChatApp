@@ -4,14 +4,15 @@
   min-height: calc(100vh - 7vh);
   background-color: #f2f9ff;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
   overflow-y: hidden;
 }
 
 .chatRoom {
+  flex-grow: 5;
   display: flex;
   flex-direction: column;
-  width: 72%;
+
   margin: 10px;
   max-height: calc(100vh - 9.5vh);
   background-color: #e195ab;
@@ -19,10 +20,11 @@
 }
 
 .chats {
-  width: 24%;
+  flex-grow: 1;
   height: auto;
   margin: 10px;
   border-radius: 10px;
+  backdrop-filter: 10px;
   background-color: #e195ab;
   display: flex;
   flex-direction: column;
@@ -51,4 +53,27 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   overflow: auto;
+}
+
+@media screen and (max-width: 480px) {
+  .chatRoom {
+    display: none;
+  }
+
+  .chats.hide {
+    display: none;
+  }
+
+  .chatRoom.show {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .chatRoom {
+    flex-grow: 6;
+  }
+  .chats {
+    flex-grow: 0.1;
+  }
 }
