@@ -5,7 +5,7 @@ import { useChat } from "../../context/ChatContext";
 import { Layout, Input, Spin } from "antd";
 import UserList from "../../components/UserList/UserList";
 import { handleSearch, handleChatRoom, ChatList } from "./Functions";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 function ChatPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,7 +13,9 @@ function ChatPage() {
   const [error, setError] = useState("");
   const { user } = useAuth();
   const { setCurrentChat, setChatList } = useChat();
+  const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!searchTerm) {
@@ -30,6 +32,14 @@ function ChatPage() {
     return () => clearTimeout(timer);
   }, [searchTerm]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setShowChat(false);
+    } else {
+      setShowChat(true);
+    }
+  }, [location]);
+
   const onUserClick = async (friend) => {
     const chatRoom = await handleChatRoom(
       user.id,
@@ -39,13 +49,14 @@ function ChatPage() {
     );
     setCurrentChat(friend);
     navigate(`/${chatRoom._id}`);
+    setShowChat(true);
   };
   return (
     <Layout className="chatPage">
-      <section className="chatRoom">
+      <section className={`chatRoom ${showChat ? "show" : ""}`}>
         <Outlet />
       </section>
-      <section className="chats">
+      <section className={`chats ${showChat ? "hide" : ""}`}>
         <h1>Chats</h1>
         <Input
           placeholder="Search Friends"
