@@ -19,7 +19,7 @@
 .chatName {
   margin-left: 0.625rem;
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
 }
 
 .messageInputContainer {
@@ -39,18 +39,18 @@
   width: 100%;
   color: inherit;
   transition: font-size 0.5s ease !important;
-  font-size: 0.625rem;
+  font-size: 1rem;
 }
 
 .messageInput::placeholder {
   opacity: 75%;
   text-align: inherit;
-  font-size: 0.625rem;
+  font-size: 0.95rem;
 }
 
 .messageInput:hover {
   background-color: inherit;
-  font-size: 0.8125rem;
+  font-size: 1.1rem;
 }
 
 .messageInput:focus {
@@ -61,7 +61,7 @@
 
 .sendButton {
   margin: 0.3125rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   transition: font-size 0.5s ease !important;
 }
 
