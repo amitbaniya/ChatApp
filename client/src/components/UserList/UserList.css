@@ -4,7 +4,7 @@
   align-items: start;
   background-color: #d4809a;
   border-bottom: 1px solid #fff5d7;
-  padding: 10px;
+  padding: 0.625rem;
 }
 
 .friendContainer.selected {
@@ -19,12 +19,12 @@
 .profile {
   background-image: var(--profile-bg);
   background-size: cover;
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
 }
 
 .friendDetails {
-  padding-left: 10px;
+  padding-left: 0.625rem;
   display: flex;
   flex-direction: column;
   white-space: nowrap;

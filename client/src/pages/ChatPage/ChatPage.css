@@ -12,46 +12,48 @@
   flex-grow: 5;
   display: flex;
   flex-direction: column;
-
-  margin: 10px;
+  margin: 0.625rem;
   max-height: calc(100vh - 9.5vh);
   background-color: #e195ab;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .chats {
   flex-grow: 1;
+
   height: auto;
-  margin: 10px;
-  border-radius: 10px;
+  margin: 0.625rem;
+  border-radius: 0.625rem;
   backdrop-filter: 10px;
   background-color: #e195ab;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .searchBar {
   width: 90%;
-  margin: 10px;
+  margin: 0.625rem;
   padding: 0.5rem;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   transition: all 0.3s ease;
 }
 
 .searchBar:focus {
   width: 90%;
-  margin: 10px;
+  margin: 0.625rem;
   padding: 0.5rem;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   transition: all 0.3s ease;
   background-color: white;
 }
 
 .friendsContainer {
   width: 90%;
-  margin: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+
+  margin: 0.625rem;
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
   overflow: auto;
 }
 
@@ -75,5 +77,17 @@
   }
   .chats {
     flex-grow: 0.1;
+  }
+}
+
+@media screen and (max-height: 550px) {
+  .chatPage {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .chatRoom {
+    max-height: 100vh;
   }
 }
