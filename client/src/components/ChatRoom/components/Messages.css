@@ -9,11 +9,11 @@
 
 .message {
   background-color: #d4809a;
-  padding: 1vw;
-  border-radius: 25px;
-  margin-bottom: 0.2vw;
+  padding: 0.625rem;
+  border-radius: 1.5625rem;
+  margin-bottom: 0.125rem;
 }
 
 .messageContainer.right .message {
-  background-color: #ab7384; /* Different color for right-aligned messages */
+  background-color: #ab7384;
 }

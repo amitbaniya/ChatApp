@@ -16,7 +16,7 @@
   flex-direction: column;
 }
 .authHeading {
-  font-size: 90px;
+  font-size: 5.625rem;
   font-family: "Akshar", serif;
   font-weight: 450;
   color: #ffcce1;
@@ -33,13 +33,13 @@
 .authForm {
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: 31rem;
 }
 
 .input {
   font-family: "Quicksand", serif;
   font-weight: 500;
-  font-size: 0.9vw !important;
+  font-size: 0.9rem !important;
   text-align: center;
   color: #e195ab !important;
   background-color: #f2f9ff !important;
@@ -59,7 +59,7 @@
 .input:hover {
   background-color: #f2f9ff;
   border-bottom: 1px solid #e195ab;
-  font-size: 1vw;
+  font-size: 1rem !important;
 }
 
 .input:hover::placeholder {
@@ -71,7 +71,7 @@
   background-color: transparent;
   box-shadow: none;
   pointer-events: none;
-  font-size: 1vw;
+  font-size: 1rem !important;
 }
 
 .passwordWrapper {
@@ -91,21 +91,21 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 1rem;
   color: #e195ab;
   transition: font-size 0.5s ease;
 }
 
 .passwordToggleButton:hover {
   background: transparent !important;
-  font-size: 16px;
+  font-size: 1.1rem;
   color: #a14660 !important;
 }
 
 .authNavigateButton {
   display: flex;
   justify-content: flex-end;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #e195ab;
   margin-bottom: 10px;
   transition: font-size 0.5s ease;
@@ -114,7 +114,7 @@
 
 .authNavigateButton:hover {
   color: #a14660;
-  font-size: 10.5px;
+  font-size: 0.656rem;
   transition: font-size 0.5s ease;
 }
 
@@ -137,74 +137,47 @@
 
 @media screen and (max-width: 480px) {
   .authForm {
-    width: 50vw;
+    width: 15rem;
   }
-  .authHeading {
-    font-size: 70px;
-  }
+
   .input {
-    font-size: 2vw;
+    font-size: 0.8rem !important;
   }
 
   .input:hover {
-    font-size: 2.3vw;
+    font-size: 0.85rem !important;
   }
   .input:focus {
-    font-size: 2.3vw;
+    font-size: 0.85rem !important;
   }
-  .authIavigate-button {
-    font-size: 7px;
-  }
-
-  .authNavigate-button:hover {
-    font-size: 7.5px;
+  .authNavigateButton {
+    font-size: 0.55rem;
   }
 
+  .authNavigateButton:hover {
+    font-size: 0.6rem;
+  }
   .passwordToggleButton {
-    font-size: 1.7vw;
     padding: 0;
   }
 }
 
 @media (max-width: 768px) and (min-width: 481px) {
   .authForm {
-    width: 40vw;
-  }
-
-  .authHeading {
-    font-size: 80px;
-  }
-  .input {
-    font-size: 1.5vw;
-  }
-
-  .input:hover {
-    font-size: 2vw;
-  }
-
-  .authNavigateButton {
-    font-size: 8px;
-  }
-
-  .authNavigateButton:hover {
-    font-size: 8.5px;
+    width: 19rem;
   }
 
   .passwordToggleButton {
-    font-size: 1.7vw;
     padding: 0;
   }
 }
 
 @media screen and (max-height: 550px) {
   .authPage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: #f2f9ff;
+    align-items: center;
   }
 
   .authContainer {
@@ -222,13 +195,13 @@
 }
 
 .ant-form-item-explain-error {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #b91040;
 }
 
 .errorMessage {
   color: #b91040;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .input.error {

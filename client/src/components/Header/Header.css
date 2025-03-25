@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5vw;
+  padding: 0.5rem;
   height: 7vh;
   position: relative;
   box-sizing: border-box;
@@ -14,7 +14,7 @@
 
 .logo {
   position: absolute;
-  font-size: 1.7vw;
+  font-size: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   font-family: "karla";
@@ -23,20 +23,20 @@
 
 .profile-section {
   display: flex;
-  gap: 10px;
+  gap: 0.62rem;
   align-items: center;
   justify-content: flex-end;
   margin-left: auto;
 }
 
 .logout-button {
-  width: 7vw;
-  height: 2vw;
+  width: 6.5rem;
+  height: 2rem;
   background-color: #ffcce1;
   color: #e195ab;
   border-color: #e195ab;
   font-family: "inter";
-  font-size: 0.9vw;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -49,46 +49,35 @@
 .logout-button-icon {
   display: none;
   color: #e195ab;
-  font-size: 5vw;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
-.profile {
+.main-profile {
   background-image: var(--profile-bg);
   background-size: cover;
-  width: 3.3vw;
-  height: 3.3vw;
+  width: 2.7rem;
+  height: 2.7rem;
 }
 
 @media screen and (max-width: 480px) {
-  .logo {
-    font-size: 4vw;
-  }
   .logout-button {
     display: none;
   }
   .logout-button-icon {
     display: block;
-    font-size: 17px;
-  }
-  .profile {
-    width: 30px;
-    height: 30px;
   }
 }
 
 @media (max-width: 768px) and (min-width: 481px) {
-  .logo {
-    font-size: 2.65vw;
-  }
-
   .logout-button {
-    width: 9vw;
-    height: 4vw;
-    font-size: 1.5vw;
+    width: 5.5rem; /* 9vw converted to rem */
+    height: 2rem; /* 4vw converted to rem */
   }
-  .profile {
-    width: 5vw;
-    height: 5vw;
+}
+
+@media screen and (max-height: 550px) {
+  .header {
+    height: 10vh;
   }
 }
