@@ -65,16 +65,11 @@ function ChatPage() {
           onChange={(e) => setSearchTerm(e.target.value)}
         ></Input>
         <div className="friendsContainer">
-          {loading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin tip="Loading..." />
-            </div>
-          )}
           {error && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>{error}</div>
           )}
 
-          <UserList onUserClick={onUserClick} />
+          <UserList onUserClick={onUserClick} loading={loading} />
         </div>
       </section>
     </Layout>
