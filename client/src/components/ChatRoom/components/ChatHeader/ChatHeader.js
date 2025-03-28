@@ -1,13 +1,21 @@
 import React from "react";
 import "./ChatHeader.css";
 import { PROFILE_URL } from "../../../../services/Constants";
-import { Avatar } from "antd";
+import { Avatar, Skeleton } from "antd";
 //IsMemeber>CurrentChat>Messages
-function ChatHeader({ currentChat }) {
+function ChatHeader({ currentChat, loading }) {
   return (
     <>
-      {!currentChat ? (
-        "Hello"
+      {loading ? (
+        <div className="chatHeader">
+          <Skeleton
+            avatar
+            active
+            title={{ width: 150 }}
+            paragraph={{ rows: 0 }}
+            round
+          ></Skeleton>
+        </div>
       ) : (
         <div className="chatHeader">
           <Avatar

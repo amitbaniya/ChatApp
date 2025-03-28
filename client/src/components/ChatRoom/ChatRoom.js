@@ -24,14 +24,21 @@ function ChatRoom() {
   const navigate = useNavigate();
   const [messageInput, setMessageInput] = useState("");
   const [isMember, setIsMember] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchChatRoomData = async () => {
-      const friendId = await handleChatRoomData(chatRoomId);
-      await handleChatRoomFriend(friendId);
-      await handleGetMessages(chatRoomId);
+      try {
+        setLoading(true);
+        const friendId = await handleChatRoomData(chatRoomId);
+        await handleChatRoomFriend(friendId);
+        await handleGetMessages(chatRoomId);
+      } catch (err) {
+        console.log(err.response?.data || "An error occurred.");
+      } finally {
+        setLoading(false);
+      }
     };
-
     fetchChatRoomData();
   }, [chatRoomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -100,8 +107,8 @@ function ChatRoom() {
     <>
       {isMember && (
         <>
-          <ChatHeader currentChat={currentChat} />
-          <Messages messages={messages} />
+          <ChatHeader currentChat={currentChat} loading={loading} />
+          <Messages messages={messages} loading={loading} />
           <MessageInput
             handleSend={handleSend}
             messageInput={messageInput}
