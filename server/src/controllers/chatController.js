@@ -7,7 +7,7 @@ export const getChatRoom = async (req, res) => {
     const { userId, friendId, chatRoomId } = req.query;
     if (chatRoomId) {
       const chatRoom = await ChatRoom.findById(chatRoomId);
-      return res.status(200).json({ chatRoom });
+      return res.status(200).json({ message: "Chat room found", chatRoom });
     }
 
     if (!userId || !friendId) {
@@ -22,7 +22,7 @@ export const getChatRoom = async (req, res) => {
       return res.status(200).json({ message: "Chat room not found", chatRoom });
     }
 
-    return res.status(200).json({ chatRoom });
+    return res.status(200).json({ message: "Chat room found", chatRoom });
   } catch (err) {
     console.error("Error in chatPage API:", err);
     res.status(500).json({ message: "Server error" });
