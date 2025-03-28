@@ -19,8 +19,8 @@
 .profile {
   background-image: var(--profile-bg);
   background-size: cover;
-  width: 1.875rem;
-  height: 1.875rem;
+  width: 2.3rem;
+  height: 2.3rem;
 }
 
 .friendDetails {
@@ -28,6 +28,22 @@
   display: flex;
   flex-direction: column;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+.ant-skeleton-title {
+  margin: 0px !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.ant-skeleton-content {
+  padding-left: 0.625rem;
+  max-height: 40px;
+}
+
+.ant-skeleton-header {
+  padding: 0px !important;
+  max-height: 40px;
+}
+
+.ant-skeleton-paragraph {
+  margin: 0px !important;
 }
