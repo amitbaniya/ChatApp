@@ -22,3 +22,18 @@
   font-weight: 500;
   font-size: 0.9rem;
 }
+
+/*Skeleton For header*/
+
+.ant-skeleton-title {
+  margin: 0px !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.ant-skeleton-content {
+  padding-left: 0.625rem;
+}
+
+.ant-skeleton-header {
+  padding: 0px !important;
+}
