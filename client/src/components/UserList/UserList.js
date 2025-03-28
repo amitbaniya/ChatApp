@@ -11,7 +11,6 @@ function UserList({ onUserClick, loading }) {
   const handleChatRoom = (friend) => {
     onUserClick(friend);
   };
-
   return (
     <>
       {loading ? (
@@ -33,7 +32,7 @@ function UserList({ onUserClick, loading }) {
           <div
             key={friend.username}
             className={`friendContainer ${
-              currentChat?.id === friend._id ? "selected" : ""
+              currentChat?._id === friend._id ? "selected" : ""
             }`}
             onClick={() => handleChatRoom(friend)}
           >

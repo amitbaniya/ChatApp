@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ChatPage.css";
 import { useAuth } from "../../context/AuthContext";
 import { useChat } from "../../context/ChatContext";
-import { Layout, Input, Spin } from "antd";
+import { Layout, Input } from "antd";
 import UserList from "../../components/UserList/UserList";
 import { handleSearch, handleChatRoom, ChatList } from "./Functions";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
