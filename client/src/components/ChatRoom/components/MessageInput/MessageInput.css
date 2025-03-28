@@ -1,0 +1,47 @@
+.messageInputContainer {
+  display: flex;
+  margin: 0.625rem;
+  border-radius: 1.5625rem;
+  padding: 0.3125rem 0.3125rem;
+  background-color: #ab7384;
+  color: #4a1c2e;
+}
+
+.messageInput {
+  background-color: #ab7384;
+  border: none;
+  box-shadow: none;
+  text-align: left !important;
+  width: 100%;
+  color: inherit;
+  transition: font-size 0.5s ease !important;
+  font-size: 1rem;
+}
+
+.messageInput::placeholder {
+  opacity: 75%;
+  text-align: inherit;
+  font-size: 0.95rem;
+}
+
+.messageInput:hover {
+  background-color: inherit;
+  font-size: 1.1rem;
+}
+
+.messageInput:focus {
+  background-color: inherit;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.sendButton {
+  margin: 0.3125rem;
+  font-size: 1rem;
+  transition: font-size 0.5s ease !important;
+}
+
+.sendButton:hover {
+  opacity: 75%;
+  font-size: 1.0625rem;
+}

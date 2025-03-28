@@ -1,20 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import "./ChatRoom.css";
-import { API_URL, PROFILE_URL } from "../../services/Constants";
-import { Avatar, Input } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import { API_URL } from "../../services/Constants";
 import { useChat } from "../../context/ChatContext";
 import { useParams } from "react-router-dom";
 import {
   getChatRoomData,
   getFriend,
   getMessages,
-  sendMessage,
 } from "../../services/ChatServices";
 import { useAuth } from "../../context/AuthContext";
-import Messages from "./components/Messages";
+import Messages from "./components/Messages/Messages";
 import { useNavigate } from "react-router-dom";
+import ChatHeader from "./components/ChatHeader/ChatHeader";
+import MessageInput from "./components/MessageInput/MessageInput";
 
 const socket = io(API_URL);
 
@@ -26,7 +24,6 @@ function ChatRoom() {
   const navigate = useNavigate();
   const [messageInput, setMessageInput] = useState("");
   const [isMember, setIsMember] = useState(false);
-  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchChatRoomData = async () => {
@@ -49,13 +46,6 @@ function ChatRoom() {
       socket.off("receiveMessage");
     };
   }, [chatRoomId, addMessage]);
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const handleChatRoomData = async (chatRoomId) => {
     try {
@@ -108,45 +98,15 @@ function ChatRoom() {
 
   return (
     <>
-      {!currentChat ? (
-        "Loading"
-      ) : (
+      {isMember && (
         <>
-          {isMember && (
-            <>
-              <div className="chatHeader">
-                <Avatar
-                  className="chatProfile"
-                  style={{
-                    "--profile-bg": `url(${PROFILE_URL}/default.png)`,
-                  }}
-                ></Avatar>
-
-                <h1 className="chatName">
-                  {" "}
-                  {`${currentChat.firstname} ${currentChat.lastname}`}
-                </h1>
-              </div>
-              <div className="chatContainer" ref={chatContainerRef}>
-                {messages.length !== 0 && <Messages messages={messages} />}
-              </div>
-              <div className="messageInputContainer">
-                <Input
-                  placeholder="Send message"
-                  className="messageInput"
-                  value={messageInput}
-                  onChange={(e) => setMessageInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleSend();
-                    }
-                  }}
-                ></Input>
-                <SendOutlined className="sendButton" onClick={handleSend} />
-              </div>
-            </>
-          )}
+          <ChatHeader currentChat={currentChat} />
+          <Messages messages={messages} />
+          <MessageInput
+            handleSend={handleSend}
+            messageInput={messageInput}
+            setMessageInput={setMessageInput}
+          />
         </>
       )}
     </>

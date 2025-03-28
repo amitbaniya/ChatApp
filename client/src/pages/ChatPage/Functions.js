@@ -68,26 +68,19 @@ export const getFriendsList = async (
   }
 };
 
-export const handleChatRoom = async (
-  userId,
-  friendId,
-  setLoading,
-  setError
-) => {
-  setLoading(true);
+export const handleChatRoom = async (userId, friendId, setError) => {
   setError("");
   try {
     const chatRoom = await getChatRoom(userId, friendId);
 
     if (chatRoom) {
+      console.log("ChatRoom Found");
       return chatRoom;
     } else {
-      setError("No Users Found");
+      setError("No ChatRoom Found");
       return null;
     }
   } catch (err) {
     console.log("Failed to fetch results. Please try again.");
-  } finally {
-    setLoading(false);
   }
 };

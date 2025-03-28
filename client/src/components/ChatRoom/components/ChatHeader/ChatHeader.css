@@ -1,0 +1,24 @@
+.chatHeader {
+  display: flex;
+  justify-content: flex-start;
+
+  margin: 0.625rem;
+  border-radius: 1.5625rem;
+  padding: 0.625rem 0.9375rem;
+  background-color: #ab7384;
+  color: #4a1c2e;
+}
+
+.chatProfile {
+  background-image: var(--profile-bg);
+  background-size: cover;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.chatName {
+  margin: 0;
+  margin-left: 0.625rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}

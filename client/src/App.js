@@ -28,7 +28,6 @@ function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<ChatPage />}>
               <Route path="/:chatRoomId" element={<ChatRoom />} />
-              <Route path="/temporary" element={<ChatRoom />} />
             </Route>
           </Route>
         </Routes>
