@@ -23,6 +23,7 @@ const io = new Server(server, {
   },
 });
 
+//Process.env not working i think
 // Middleware
 const allowedOrigins = ["https://chat-app-yuyu.vercel.app"];
 const corsOptions = {
