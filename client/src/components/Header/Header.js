@@ -24,7 +24,7 @@ function Header() {
             onClick={handleLogout}
           />
           <Avatar
-            className="profile"
+            className="main-profile"
             style={{
               "--profile-bg": `url(${PROFILE_URL}/default.png)`,
             }}

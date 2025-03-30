@@ -4,51 +4,107 @@
   min-height: calc(100vh - 7vh);
   background-color: #f2f9ff;
   flex-direction: row;
-  flex-wrap: wrap;
   overflow-y: hidden;
 }
 
 .chatRoom {
+  width: 75%;
+  max-width: 75%;
   display: flex;
   flex-direction: column;
-  width: 72%;
-  margin: 10px;
+  margin: 0.625rem;
   max-height: calc(100vh - 9.5vh);
   background-color: #e195ab;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .chats {
-  width: 24%;
+  width: 25%;
+  max-height: calc(100vh - 9.5vh);
   height: auto;
-  margin: 10px;
-  border-radius: 10px;
+  margin: 0.625rem;
+  border-radius: 0.625rem;
+  backdrop-filter: 10px;
   background-color: #e195ab;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .searchBar {
   width: 90%;
-  margin: 10px;
+  margin: 0.625rem;
   padding: 0.5rem;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   transition: all 0.3s ease;
 }
 
 .searchBar:focus {
   width: 90%;
-  margin: 10px;
+  margin: 0.625rem;
   padding: 0.5rem;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   transition: all 0.3s ease;
   background-color: white;
 }
 
 .friendsContainer {
   width: 90%;
-  margin: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+
+  margin: 0.625rem;
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
   overflow: auto;
+}
+
+.friendsContainer::-webkit-scrollbar {
+  width: 0.375rem;
+}
+
+.friendsContainer::-webkit-scrollbar-track {
+  background: #e195ab;
+  border-radius: 1.5625rem;
+}
+
+.friendsContainer::-webkit-scrollbar-thumb {
+  background-color: #ab7384;
+  border-radius: 1.5625rem;
+  border: 0.125rem solid #e195ab;
+}
+
+@media screen and (max-width: 600px) {
+  .chatRoom {
+    display: none;
+  }
+
+  .chats {
+    width: 100%;
+  }
+
+  .chats.hide {
+    display: none;
+  }
+
+  .chatRoom.show {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+  .chats {
+    width: 40%;
+  }
+}
+
+@media screen and (max-height: 550px) {
+  .chatPage {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .chatRoom {
+    max-height: 100vh;
+  }
 }

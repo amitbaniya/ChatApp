@@ -1,4 +1,4 @@
-import ApiInstance from "./ApiInstance";
+import { ApiInstance } from "./ApiInstance";
 
 export const loginUser = async (credentials) => {
   try {

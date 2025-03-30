@@ -9,9 +9,23 @@ export const useChat = () => {
 export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+  const [chatList, setChatList] = useState([]);
 
-  const addMessage = (message) => {
+  const addMessage = (message, chatRoomId) => {
     setMessages((prevMessages) => [...prevMessages, message]);
+    setChatList((prevChatList) =>
+      prevChatList
+        .map((chatRoom) =>
+          chatRoom.lastMessage?.chatRoom === chatRoomId
+            ? { ...chatRoom, lastMessage: message }
+            : chatRoom
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.lastMessage?.updatedAt) -
+            new Date(a.lastMessage?.updatedAt)
+        )
+    );
   };
 
   const value = {
@@ -20,6 +34,8 @@ export const ChatProvider = ({ children }) => {
     currentChat,
     setCurrentChat,
     addMessage,
+    chatList,
+    setChatList,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

@@ -7,8 +7,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import { ChatProvider } from "./context/ChatContext";
 import ChatRoom from "./components/ChatRoom/ChatRoom";
+import { useAuth } from "./context/AuthContext";
+import { useEffect } from "react";
+import { setupInterceptors } from "./services/ApiInstance";
 
 function App() {
+  const { logout } = useAuth();
+
+  useEffect(() => {
+    setupInterceptors(logout);
+  }, [logout]);
   return (
     <ChatProvider>
       <Router>

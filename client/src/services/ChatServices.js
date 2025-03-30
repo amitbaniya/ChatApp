@@ -1,4 +1,4 @@
-import ApiInstance from "./ApiInstance";
+import { ApiInstance } from "./ApiInstance";
 
 export const chatPage = async (credentials) => {
   try {
@@ -65,7 +65,7 @@ export const newChatRoom = async (userId, friendId) => {
       userId: userId,
       friendId: friendId,
     });
-    return response.data;
+    return response.data.chatRoom;
   } catch (error) {
     console.error(
       "Chat Page Room List error:",

@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./ChatRoom.css";
-import { PROFILE_URL } from "../../services/Constants";
-import { Avatar, Input } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
+import { API_URL } from "../../services/Constants";
 import { useChat } from "../../context/ChatContext";
 import { useParams } from "react-router-dom";
 import {
   getChatRoomData,
   getFriend,
   getMessages,
-  sendMessage,
 } from "../../services/ChatServices";
 import { useAuth } from "../../context/AuthContext";
-import Messages from "./components/Messages";
+import Messages from "./components/Messages/Messages";
 import { useNavigate } from "react-router-dom";
+import ChatHeader from "./components/ChatHeader/ChatHeader";
+import MessageInput from "./components/MessageInput/MessageInput";
+
+const socket = io(API_URL);
 
 function ChatRoom() {
   const { chatRoomId } = useParams();
@@ -23,25 +24,36 @@ function ChatRoom() {
   const navigate = useNavigate();
   const [messageInput, setMessageInput] = useState("");
   const [isMember, setIsMember] = useState(false);
-  const chatContainerRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchChatRoomData = async () => {
-      const friendId = await handleChatRoomData(chatRoomId);
-      await handleChatRoomFriend(friendId);
-      await handleGetMessages(chatRoomId);
+      try {
+        setLoading(true);
+        const friendId = await handleChatRoomData(chatRoomId);
+        await handleChatRoomFriend(friendId);
+        await handleGetMessages(chatRoomId);
+      } catch (err) {
+        console.log(err.response?.data || "An error occurred.");
+      } finally {
+        setLoading(false);
+      }
     };
-
     fetchChatRoomData();
   }, [chatRoomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-    
-  }, [messages]);
+    socket.emit("joinRoom", { chatRoomId });
+
+    socket.on("receiveMessage", (message) => {
+      addMessage(message, chatRoomId);
+    });
+
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, [chatRoomId, addMessage]);
+
   const handleChatRoomData = async (chatRoomId) => {
     try {
       const chatRoomData = await getChatRoomData(chatRoomId);
@@ -64,7 +76,6 @@ function ChatRoom() {
   const handleChatRoomFriend = async (friendId) => {
     try {
       const friend = await getFriend(friendId);
-
       setCurrentChat(friend);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
@@ -81,56 +92,28 @@ function ChatRoom() {
   };
 
   const handleSend = async () => {
-    try {
-      const message = await sendMessage(chatRoomId, user.id, messageInput);
-      setMessageInput("");
-      addMessage(message);
-    } catch (err) {
-      console.log(err.response?.data || "An error occurred.");
-    }
+    if (!messageInput.trim()) return;
+
+    socket.emit("sendMessage", {
+      chatRoomId,
+      userId: user.id,
+      message: messageInput,
+    });
+
+    setMessageInput("");
   };
 
   return (
     <>
-      {!currentChat ? (
-        "Loading"
-      ) : (
+      {isMember && (
         <>
-          {isMember && (
-            <>
-              <div className="chatHeader">
-                <Avatar
-                  className="chatProfile"
-                  style={{
-                    "--profile-bg": `url(${PROFILE_URL}/default.png)`,
-                  }}
-                ></Avatar>
-
-                <h1 className="chatName">
-                  {" "}
-                  {`${currentChat.firstname} ${currentChat.lastname}`}
-                </h1>
-              </div>
-              <div className="chatContainer" ref={chatContainerRef}>
-                {messages.length !== 0 && <Messages messages={messages} />}
-              </div>
-              <div className="messageInputContainer">
-                <Input
-                  placeholder="Send message"
-                  className="messageInput"
-                  value={messageInput}
-                  onChange={(e) => setMessageInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleSend();
-                    }
-                  }}
-                ></Input>
-                <SendOutlined className="sendButton" onClick={handleSend} />
-              </div>
-            </>
-          )}
+          <ChatHeader currentChat={currentChat} loading={loading} />
+          <Messages messages={messages} loading={loading} />
+          <MessageInput
+            handleSend={handleSend}
+            messageInput={messageInput}
+            setMessageInput={setMessageInput}
+          />
         </>
       )}
     </>

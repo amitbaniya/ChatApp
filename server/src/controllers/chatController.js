@@ -7,7 +7,7 @@ export const getChatRoom = async (req, res) => {
     const { userId, friendId, chatRoomId } = req.query;
     if (chatRoomId) {
       const chatRoom = await ChatRoom.findById(chatRoomId);
-      return res.status(200).json({ chatRoom });
+      return res.status(200).json({ message: "Chat room found", chatRoom });
     }
 
     if (!userId || !friendId) {
@@ -22,7 +22,7 @@ export const getChatRoom = async (req, res) => {
       return res.status(200).json({ message: "Chat room not found", chatRoom });
     }
 
-    return res.status(200).json({ chatRoom });
+    return res.status(200).json({ message: "Chat room found", chatRoom });
   } catch (err) {
     console.error("Error in chatPage API:", err);
     res.status(500).json({ message: "Server error" });
@@ -91,6 +91,25 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+export const addMessage = async (chatRoomId, userId, messageContent) => {
+  const message = new Message({
+    chatRoom: chatRoomId,
+    sender: userId,
+    message: messageContent,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  await message.save();
+
+  await ChatRoom.findByIdAndUpdate(chatRoomId, {
+    lastMessage: message._id,
+    updatedAt: new Date(),
+  });
+
+  return message;
+};
+
 export const getMessages = async (req, res) => {
   try {
     const { chatRoomId } = req.query;
@@ -119,24 +138,26 @@ export const chatList = async (req, res) => {
       members: { $in: [userId] },
     })
       .populate("lastMessage")
-      .sort({ updateAt: -1 });
+      .sort({ updatedAt: -1 });
 
     const users = await Promise.all(
-      chatRooms.map(async (chatRoom) => {
-        const otherMemberId = chatRoom.members.find(
-          (member) => member.toString() !== userId
-        );
-        const otherMember = await User.findById(otherMemberId);
+      chatRooms
+        .filter((chatRoom) => chatRoom.lastMessage) // Filter out chat rooms without a lastMessage
+        .map(async (chatRoom) => {
+          const otherMemberId = chatRoom.members.find(
+            (member) => member.toString() !== userId
+          );
+          const otherMember = await User.findById(otherMemberId);
 
-        return {
-          _id: otherMember._id,
-          firstname: otherMember.firstname,
-          lastname: otherMember.lastname,
-          username: otherMember.username,
-          profilePicture: otherMember.profilePicture,
-          lastMessage: chatRoom.lastMessage,
-        };
-      })
+          return {
+            _id: otherMember._id,
+            firstname: otherMember.firstname,
+            lastname: otherMember.lastname,
+            username: otherMember.username,
+            profilePicture: otherMember.profilePicture,
+            lastMessage: chatRoom.lastMessage,
+          };
+        })
     );
 
     return res.status(200).json({ users });
