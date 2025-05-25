@@ -3,31 +3,31 @@ import "./MessageInput.css";
 import { Input } from "antd";
 import { PictureOutlined, SendOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useEffect } from "react";
 import { useAuth } from "../../../../context/AuthContext";
 import ImagePreview from "../ImagePeview/ImagePreview";
 import ImageSelector from "../ImageSelector/ImageSelector";
+import { sendMessage } from "../../../../services/ChatServices";
 
 function MessageInput({ chatRoomId,socket }) {
   const { user } = useAuth();
   const [messageInput, setMessageInput] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
 
-  useEffect(() => {
-      socket.emit("joinRoom", { chatRoomId });
-  
-      return () => {
-        socket.off("receiveMessage");
-      };
-    }, [chatRoomId,socket]);
   const handleSend = async () => {
     if (!messageInput.trim()) return;
-
+    try {
+      const userId = user.id
+      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket)
+      
+    } catch (error) {
+      console.log(error)
+    }
+/* 
     socket.emit("sendMessage", {
       chatRoomId,
       userId: user.id,
       message: messageInput,
-    });
+    }); */
 
     setMessageInput("");
   };

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 function ImageSelector({ onUpload, icon, setSelectedImages }) {
   const fileInputRef = useRef(null);
@@ -47,7 +47,6 @@ function ImageSelector({ onUpload, icon, setSelectedImages }) {
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={handleImageSelection}
-        disabled={uploading}
         multiple
       />
       <span onClick={handleIconClick} style={{ cursor: "pointer" }}>

@@ -91,11 +91,12 @@ export const sendMessage = async (req, res) => {
   }
 };
 
-export const addMessage = async (chatRoomId, userId, messageContent) => {
+export const addMessage = async (chatRoomId, userId, messageContent, imageUrls) => {
   const message = new Message({
     chatRoom: chatRoomId,
     sender: userId,
     message: messageContent,
+    imageUrls:imageUrls,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
