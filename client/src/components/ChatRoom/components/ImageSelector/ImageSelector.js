@@ -1,17 +1,23 @@
 import React, { useRef, useState } from "react";
-import axios from "axios";
 
-const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
-const UPLOAD_PRESET = process.env.REACT_APP_CLOUD_UPLOAD_PRESET;
-function ImageUploader({ onUpload, icon }) {
+function ImageSelector({ onUpload, icon, setSelectedImages }) {
   const fileInputRef = useRef(null);
-  const [uploading, setUploading] = useState(false);
-
   const handleIconClick = () => {
     if (fileInputRef.current) fileInputRef.current.click();
   };
 
-  const handleFileChange = async (e) => {
+  const handleImageSelection = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = files.map(file => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+  
+    
+    if (onUpload) onUpload(newImages);
+  };
+
+  /* const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setUploading(true);
@@ -31,7 +37,7 @@ function ImageUploader({ onUpload, icon }) {
       setUploading(false);
       e.target.value = ""; // Reset file input
     }
-  };
+  }; */
 
   return (
     <>
@@ -40,8 +46,9 @@ function ImageUploader({ onUpload, icon }) {
         accept="image/*"
         ref={fileInputRef}
         style={{ display: "none" }}
-        onChange={handleFileChange}
+        onChange={handleImageSelection}
         disabled={uploading}
+        multiple
       />
       <span onClick={handleIconClick} style={{ cursor: "pointer" }}>
         {icon}
@@ -50,4 +57,4 @@ function ImageUploader({ onUpload, icon }) {
   );
 }
 
-export default ImageUploader;
+export default ImageSelector;
