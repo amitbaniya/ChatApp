@@ -4,16 +4,47 @@ import { Input } from "antd";
 import { PictureOutlined, SendOutlined } from "@ant-design/icons";
 import ImageUploader from "../../../ImageUploader/ImageUploader";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useAuth } from "../../../../context/AuthContext";
+import ImagePreview from "../ImagePeview/ImagePreview";
 
-function MessageInput({ handleSend, messageInput, setMessageInput }) {
-  const [imageUrl, setImageUrl] = useState(null);
+function MessageInput({ chatRoomId,socket }) {
+  const { user } = useAuth();
+  const [messageInput, setMessageInput] = useState("");
+  const [imageUrls, setImageUrls] = useState([]);
+
+  useEffect(() => {
+      socket.emit("joinRoom", { chatRoomId });
+  
+      return () => {
+        socket.off("receiveMessage");
+      };
+    }, [chatRoomId]);
+  const handleSend = async () => {
+    if (!messageInput.trim()) return;
+
+    socket.emit("sendMessage", {
+      chatRoomId,
+      userId: user.id,
+      message: messageInput,
+    });
+
+    setMessageInput("");
+  };
+
+
+  
   const onImageUpload = (url) => {
     // Send publicId to backend
-    setImageUrl(url); 
-    console.log(url)
+    setImageUrls(prevItems => [...prevItems, url]);
   };
+
+
   return (
     <div className="messageInputContainer">
+       {imageUrls && (
+        <ImagePreview imageUrls={imageUrls} setImageUrls={setImageUrls} />
+    )}
       <Input
         placeholder="Send message"
         className="messageInput"

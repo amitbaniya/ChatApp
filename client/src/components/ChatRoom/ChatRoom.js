@@ -22,7 +22,6 @@ function ChatRoom() {
     useChat();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [messageInput, setMessageInput] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -91,17 +90,7 @@ function ChatRoom() {
     }
   };
 
-  const handleSend = async () => {
-    if (!messageInput.trim()) return;
-
-    socket.emit("sendMessage", {
-      chatRoomId,
-      userId: user.id,
-      message: messageInput,
-    });
-
-    setMessageInput("");
-  };
+  
 
   return (
     <>
@@ -110,9 +99,8 @@ function ChatRoom() {
           <ChatHeader currentChat={currentChat} loading={loading} />
           <Messages messages={messages} loading={loading} />
           <MessageInput
-            handleSend={handleSend}
-            messageInput={messageInput}
-            setMessageInput={setMessageInput}
+            chatRoomId={chatRoomId}
+            socket={socket}
           />
         </>
       )}
