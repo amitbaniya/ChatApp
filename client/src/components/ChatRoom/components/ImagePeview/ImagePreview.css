@@ -1,0 +1,23 @@
+.imagePreview{
+    position: relative;
+     margin-bottom: 8px;
+     display: inline-block
+}
+
+.uploadedImage{
+    max-height: 80px; 
+    border-radius: 8px;
+    margin: 2px;
+
+}
+.removeButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow:0 1px 4px rgba(0,0,0,0.2)
+}

@@ -2,16 +2,16 @@ import React from "react";
 import "./MessageInput.css";
 import { Input } from "antd";
 import { PictureOutlined, SendOutlined } from "@ant-design/icons";
-import ImageUploader from "../../../ImageUploader/ImageUploader";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useAuth } from "../../../../context/AuthContext";
 import ImagePreview from "../ImagePeview/ImagePreview";
+import ImageSelector from "../ImageSelector/ImageSelector";
 
 function MessageInput({ chatRoomId,socket }) {
   const { user } = useAuth();
   const [messageInput, setMessageInput] = useState("");
-  const [imageUrls, setImageUrls] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   useEffect(() => {
       socket.emit("joinRoom", { chatRoomId });
@@ -19,7 +19,7 @@ function MessageInput({ chatRoomId,socket }) {
       return () => {
         socket.off("receiveMessage");
       };
-    }, [chatRoomId]);
+    }, [chatRoomId,socket]);
   const handleSend = async () => {
     if (!messageInput.trim()) return;
 
@@ -33,17 +33,16 @@ function MessageInput({ chatRoomId,socket }) {
   };
 
 
-  
-  const onImageUpload = (url) => {
+  const onImageUpload = (newImages) => {
     // Send publicId to backend
-    setImageUrls(prevItems => [...prevItems, url]);
+    setSelectedImages(prev => [...prev, ...newImages]);
   };
 
 
   return (
     <div className="messageInputContainer">
-       {imageUrls && (
-        <ImagePreview imageUrls={imageUrls} setImageUrls={setImageUrls} />
+       {selectedImages && (
+        <ImagePreview selectedImages={selectedImages} setSelectedImages={setSelectedImages} />
     )}
       <Input
         placeholder="Send message"
@@ -57,7 +56,7 @@ function MessageInput({ chatRoomId,socket }) {
           }
         }}
       ></Input>
-      <ImageUploader onUpload={onImageUpload} icon={<PictureOutlined className="uploadButton" />} />
+      <ImageSelector onUpload={onImageUpload} selectedImages={selectedImages} setSelectedImages={setSelectedImages} icon={<PictureOutlined className="uploadButton" />} />
       <SendOutlined className="sendButton" onClick={handleSend} />
     </div>
   );
