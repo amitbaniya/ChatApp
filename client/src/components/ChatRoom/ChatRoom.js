@@ -48,6 +48,10 @@ function ChatRoom() {
       addMessage(message, chatRoomId);
     });
 
+    socket.on("sendMessageError", (error) => {
+      console.error("Message send failed:", error);
+    });
+
     return () => {
       socket.off("receiveMessage");
     };

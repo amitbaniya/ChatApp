@@ -46,9 +46,17 @@ io.on("connection", (socket) => {
     socket.join(chatRoomId);
   });
 
-  socket.on("sendMessage", async ({ chatRoomId, userId, message }) => {
-    const newMessage = await addMessage(chatRoomId, userId, message);
-    io.to(chatRoomId).emit("receiveMessage", newMessage);
+  socket.on("sendMessage", async ({ chatRoomId, userId, message, uploadedImageUrls }) => {
+    try {
+      const newMessage = await addMessage(chatRoomId, userId, message, uploadedImageUrls);
+      io.to(chatRoomId).emit("receiveMessage", newMessage);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      socket.emit("sendMessageError", {
+        message: "Failed to send message",
+        details: error.message,
+      });
+    }
   });
 
   socket.on("disconnect", () => {

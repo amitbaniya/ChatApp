@@ -13,7 +13,7 @@ const MessageSchema = new mongoose.Schema(
       required: true,
     },
     message: { type: String, default: "" },
-    fileUrl: { type: String, default: "" },
+    imageUrls: [{ type: String, default: "" }],
     status: {
       type: String,
       enum: ["sent", "delivered", "seen"],
