@@ -12,7 +12,9 @@ export const ChatProvider = ({ children }) => {
   const [chatList, setChatList] = useState([]);
 
   const addMessage = (message, chatRoomId) => {
-    setMessages((prevMessages) => [...prevMessages, message]);
+    if (chatRoomId === currentChat?.chatRoomId) {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    }
     setChatList((prevChatList) =>
       prevChatList
         .map((chatRoom) =>
