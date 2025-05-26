@@ -30,7 +30,7 @@ function ChatRoom() {
       try {
         setLoading(true);
         const friendId = await handleChatRoomData(chatRoomId);
-        await handleChatRoomFriend(friendId);
+        await handleChatRoomFriend(friendId,chatRoomId);
         await handleGetMessages(chatRoomId);
       } catch (err) {
         console.log(err.response?.data || "An error occurred.");
@@ -44,8 +44,9 @@ function ChatRoom() {
   useEffect(() => {
     socket.emit("joinRoom", { chatRoomId });
 
-    socket.on("receiveMessage", (message) => {
-      addMessage(message, chatRoomId);
+    socket.on("receiveMessage", (message, chatRoomId) => {
+      //addMessage(message, chatRoomId);
+      
     });
 
     socket.on("sendMessageError", (error) => {
@@ -60,11 +61,12 @@ function ChatRoom() {
   const handleChatRoomData = async (chatRoomId) => {
     try {
       const chatRoomData = await getChatRoomData(chatRoomId);
-      if (chatRoomData.members.includes(user.id)) {
+      if (chatRoomData?.members.includes(user.id)) {
         setIsMember(true);
       } else {
         setIsMember(false);
         navigate("/");
+        return;
       }
       if (user.id === chatRoomData.members[0]) {
         return chatRoomData.members[1];
@@ -76,10 +78,11 @@ function ChatRoom() {
     }
   };
 
-  const handleChatRoomFriend = async (friendId) => {
+  const handleChatRoomFriend = async (friendId,chatRoomId) => {
     try {
       const friend = await getFriend(friendId);
-      setCurrentChat(friend);
+      const updatedFriend = { ...friend, chatRoomId };
+      setCurrentChat(updatedFriend);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }

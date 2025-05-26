@@ -149,7 +149,7 @@ export const getMessages = async (chatRoomId) => {
   }
 };
 
-export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket) => {
+export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, friendId) => {
   try {
     let uploadedImageUrls = [];
     if (imageUrls.length > 0) {
@@ -161,10 +161,10 @@ export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket) 
       chatRoomId,
       userId,
       message,
-      uploadedImageUrls
+      uploadedImageUrls,
+      friendId
     });
-    const successMessage = "Message sent successfully"
-    return successMessage
+    return {successMessage: "Message sent succesfully"}
 
     /* const response = await ApiInstance.post("/api/chatPage/chatRoom/message", {
       chatRoomId: chatRoomId,

@@ -10,19 +10,21 @@ import authMiddleware from "./middleware/authMiddleware.js";
 import http from "http";
 import { Server } from "socket.io";
 import { addMessage, sendMessage } from "./controllers/chatController.js";
+import { setupSocket } from "./config/socket.js";
 
 dotenv.config();
 connectDB();
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
+/* const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
   },
-});
+}); */
 
+setupSocket(server)
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -39,7 +41,7 @@ app.use("/api/upload", authMiddleware, uploadRoutes);
 app.use("/api/friends", authMiddleware, friendsRoutes);
 app.use("/api/chatPage", authMiddleware, chatRoutes);
 
-io.on("connection", (socket) => {
+/* io.on("connection", (socket) => {
   console.log("New client connected");
 
   socket.on("joinRoom", ({ chatRoomId }) => {
@@ -49,7 +51,7 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", async ({ chatRoomId, userId, message, uploadedImageUrls }) => {
     try {
       const newMessage = await addMessage(chatRoomId, userId, message, uploadedImageUrls);
-      io.to(chatRoomId).emit("receiveMessage", newMessage);
+      io.to(chatRoomId).emit("receiveMessage", newMessage, chatRoomId);
     } catch (error) {
       console.error("Error sending message:", error);
       socket.emit("sendMessageError", {
@@ -62,7 +64,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
-});
+}); */
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

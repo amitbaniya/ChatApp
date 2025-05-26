@@ -7,28 +7,23 @@ import { useAuth } from "../../../../context/AuthContext";
 import ImagePreview from "../ImagePeview/ImagePreview";
 import ImageSelector from "../ImageSelector/ImageSelector";
 import { sendMessage } from "../../../../services/ChatServices";
+import { useChat } from "../../../../context/ChatContext";
 
 function MessageInput({ chatRoomId,socket }) {
   const { user } = useAuth();
   const [messageInput, setMessageInput] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
-
+  const { currentChat } = useChat();
   const handleSend = async () => {
     if (!messageInput.trim()) return;
     try {
       const userId = user.id
-      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket)
+      const friendId = currentChat._id;
+      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket,friendId)
       
     } catch (error) {
       console.log(error)
     }
-/* 
-    socket.emit("sendMessage", {
-      chatRoomId,
-      userId: user.id,
-      message: messageInput,
-    }); */
-
     setMessageInput("");
   };
 

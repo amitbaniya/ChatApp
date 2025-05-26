@@ -6,18 +6,47 @@ import { Layout, Input } from "antd";
 import UserList from "../../components/UserList/UserList";
 import { handleSearch, handleChatRoom, ChatList } from "./Functions";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { API_URL } from "../../services/Constants";
+import { io } from "socket.io-client";
 
+const socket = io(API_URL);
 function ChatPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
-  const { setCurrentChat, setChatList } = useChat();
+  const { chatList, setCurrentChat, setChatList,addMessage } = useChat();
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
   useEffect(() => {
+    const userId = user.id
+    
+    socket.emit("registerUser", { userId });
+  })
+  
+  useEffect(() => {
+    const updateChatList = async (message, chatRoomId) => {
+      if (chatList.length === 0) {
+        await ChatList(user.id, setLoading, setError, setChatList);
+      } 
+      await addMessage(message, chatRoomId);
+    };
+  
+  
+    socket.on("newMessageAlert", (message, chatRoomId) => {
+    
+      updateChatList(message, chatRoomId);
+     
+    });
+    return () => {
+      socket.off("newMessageAlert");
+    };
+  }, [chatList, user.id, setLoading, setError, setChatList, addMessage]);
+  
+  
+  useEffect(() => {
+    
     if (!searchTerm) {
       setError("");
       ChatList(user.id, setLoading, setError, setChatList);
@@ -47,10 +76,14 @@ function ChatPage() {
       setLoading,
       setError
     );
-    setCurrentChat(friend);
+    const chatRoomId = chatRoom._id
+    const updatedFriend = { ...friend, chatRoomId };
+    setCurrentChat(updatedFriend);
     navigate(`/${chatRoom._id}`);
     setShowChat(true);
   };
+
+  
   return (
     <Layout className="chatPage">
       <section className={`chatRoom ${showChat ? "show" : ""}`}>
