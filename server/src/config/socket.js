@@ -1,6 +1,6 @@
 // config/socket.js
 import { Server } from "socket.io";
-import { addMessage } from "../controllers/chatController.js";
+import { addMessage, updateMessage } from "../controllers/chatController.js";
 
 export const setupSocket = (server) => {
   const io = new Server(server, {
@@ -24,12 +24,11 @@ export const setupSocket = (server) => {
         console.log("Chat Room Connection");
     });
 
-    socket.on("sendMessage", async ({ chatRoomId, userId, message, uploadedImageUrls,friendId }) => {
+    socket.on("sendMessage", async ({ chatRoomId, userId, messageId, uploadedImageUrls,friendId }) => {
       try {
-        
-        const newMessage = await addMessage(chatRoomId, userId, message, uploadedImageUrls);
+        const newMessage = await updateMessage(messageId, uploadedImageUrls);
         io.to(friendId).emit("newMessageAlert", newMessage, chatRoomId)
-        io.to(userId).emit("newMessageAlert",  newMessage, chatRoomId);
+        io.to(userId).emit("selfMessageAlert",  newMessage, chatRoomId);
         io.to(chatRoomId).emit("receiveMessage", newMessage, chatRoomId);
 
       } catch (error) {

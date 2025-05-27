@@ -149,8 +149,23 @@ export const getMessages = async (chatRoomId) => {
   }
 };
 
-export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, friendId) => {
+export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, friendId,addMessage) => {
   try {
+    let previewUrls = []
+    if (imageUrls.length > 0) {
+      previewUrls = await Promise.all(
+        imageUrls.map((imageUrl) => imageUrl.previewUrl)
+      );
+    }
+    const response = await ApiInstance.post("/api/chatPage/chatRoom/message", {
+      chatRoomId: chatRoomId,
+      userId: userId,
+      message: message,
+      imageUrls:previewUrls
+    });
+    const newMessage = response.data.newMessage
+    await addMessage(newMessage, chatRoomId)
+    const messageId = newMessage._id
     let uploadedImageUrls = [];
     if (imageUrls.length > 0) {
       uploadedImageUrls = await Promise.all(
@@ -160,18 +175,13 @@ export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, 
     socket.emit("sendMessage", {
       chatRoomId,
       userId,
-      message,
+      messageId,
       uploadedImageUrls,
       friendId
     });
     return {successMessage: "Message sent succesfully"}
 
-    /* const response = await ApiInstance.post("/api/chatPage/chatRoom/message", {
-      chatRoomId: chatRoomId,
-      userId: userId,
-      message: message,
-    });
-    return response.data.newMessage; */
+    
   } catch (error) {
     console.error(
       "Chat Page Friends List error:",

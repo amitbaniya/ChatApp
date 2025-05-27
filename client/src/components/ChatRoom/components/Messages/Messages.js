@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import "./Messages.css";
 import { useAuth } from "../../../../context/AuthContext";
-import { Skeleton, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+
 
 function Messages({ messages, loading }) {
   const { user } = useAuth();
   const chatContainerRef = useRef(null);
-
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =

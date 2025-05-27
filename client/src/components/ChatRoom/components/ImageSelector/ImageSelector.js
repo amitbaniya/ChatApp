@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-function ImageSelector({ onUpload, icon, setSelectedImages }) {
+function ImageSelector({ onUpload, icon }) {
   const fileInputRef = useRef(null);
   const handleIconClick = () => {
     if (fileInputRef.current) fileInputRef.current.click();
