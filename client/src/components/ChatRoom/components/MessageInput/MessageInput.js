@@ -13,13 +13,13 @@ function MessageInput({ chatRoomId,socket }) {
   const { user } = useAuth();
   const [messageInput, setMessageInput] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
-  const { currentChat } = useChat();
+  const { currentChat,addMessage } = useChat();
   const handleSend = async () => {
     if (!messageInput.trim()) return;
     try {
       const userId = user.id
       const friendId = currentChat._id;
-      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket,friendId)
+      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket, friendId,addMessage);
       
     } catch (error) {
       console.log(error)
@@ -51,7 +51,7 @@ function MessageInput({ chatRoomId,socket }) {
           }
         }}
       ></Input>
-      <ImageSelector onUpload={onImageUpload} selectedImages={selectedImages} setSelectedImages={setSelectedImages} icon={<PictureOutlined className="uploadButton" />} />
+      <ImageSelector onUpload={onImageUpload} icon={<PictureOutlined className="uploadButton" />} />
       <SendOutlined className="sendButton" onClick={handleSend} />
     </div>
   );

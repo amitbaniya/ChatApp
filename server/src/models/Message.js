@@ -14,11 +14,16 @@ const MessageSchema = new mongoose.Schema(
     },
     message: { type: String, default: "" },
     imageUrls: [{ type: String, default: "" }],
+
     status: {
       type: String,
-      enum: ["sent", "delivered", "seen"],
-      default: "sent",
+      enum: ["sending", "sent", "delivered", "seen"],
+      default: "sending",
     },
+
+    deliveredAt: { type: Date },
+    seenAt: { type: Date },
+
     deletedFor: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }

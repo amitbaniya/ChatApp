@@ -64,7 +64,7 @@ export const createChatRoom = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { message, userId, chatRoomId } = req.body;
+    const { message, userId, chatRoomId,imageUrls } = req.body;
 
     if (!message || !userId || !chatRoomId) {
       return res
@@ -76,6 +76,7 @@ export const sendMessage = async (req, res) => {
       sender: userId,
       chatRoom: chatRoomId,
       message: message,
+      imageUrls: imageUrls,
     });
 
     await ChatRoom.findByIdAndUpdate(
@@ -108,6 +109,14 @@ export const addMessage = async (chatRoomId, userId, messageContent, imageUrls) 
     updatedAt: new Date(),
   });
 
+  return message;
+};
+
+export const updateMessage = async (messageId, imageUrls) => {
+  const message = await Message.findByIdAndUpdate(messageId, {
+    status: 'sent',
+    imageUrls:imageUrls
+  },{ new: true } );
   return message;
 };
 

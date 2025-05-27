@@ -15,7 +15,7 @@ function ChatPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
-  const { chatList, setCurrentChat, setChatList,addMessage } = useChat();
+  const { chatList, setCurrentChat, setChatList,addMessage,updateMessageStatus } = useChat();
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,23 +26,38 @@ function ChatPage() {
   })
   
   useEffect(() => {
-    const updateChatList = async (message, chatRoomId) => {
+    const updateMessages = async (message, chatRoomId) => {
       if (chatList.length === 0) {
         await ChatList(user.id, setLoading, setError, setChatList);
-      } 
+      }
       await addMessage(message, chatRoomId);
+
+      //emit that message has been delivered
+    };
+
+    const updateStatusMessage = async (message, chatRoomId) => {
+      if (chatList.length === 0) {
+        await ChatList(user.id, setLoading, setError, setChatList);
+      }
+      await updateMessageStatus(message, chatRoomId);
+
     };
   
   
     socket.on("newMessageAlert", (message, chatRoomId) => {
-    
-      updateChatList(message, chatRoomId);
+      console.log(message)
+      updateMessages(message, chatRoomId);
      
     });
+
+    socket.on("selfMessageAlert", (message, chatRoomId) => { 
+      updateStatusMessage(message,chatRoomId)
+    });
+
     return () => {
       socket.off("newMessageAlert");
     };
-  }, [chatList, user.id, setLoading, setError, setChatList, addMessage]);
+  }, [chatList, user.id, setLoading, setError, setChatList, addMessage,updateMessageStatus]);
   
   
   useEffect(() => {
