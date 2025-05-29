@@ -127,6 +127,27 @@ export const updateMessage = async (status, messageId, imageUrls) => {
   return message;
 };
 
+export const updateMessageStatus = async (userId) => {
+  
+  const chatRooms = await ChatRoom.find({ members: userId }).select('_id');
+  const chatRoomIds = chatRooms.map(r => r._id);
+ 
+  let deliveredMessages = []
+  const messagesToDeliver = await Message.find({
+    chatRoom: { $in: chatRoomIds },
+    sender: { $ne: userId },
+    status: "sent"
+  });
+  for (const message of messagesToDeliver) {
+    message.status = "delivered";
+    await message.save();
+    
+    deliveredMessages.push(message)
+  }
+  
+  return deliveredMessages
+}
+
 export const getMessages = async (req, res) => {
   try {
     const { chatRoomId } = req.query;

@@ -1,6 +1,6 @@
 // config/socket.js
 import { Server } from "socket.io";
-import { addMessage, updateMessage } from "../controllers/chatController.js";
+import { addMessage, updateMessage, updateMessageStatus } from "../controllers/chatController.js";
 
 export const setupSocket = (server) => {
   const io = new Server(server, {
@@ -13,9 +13,16 @@ export const setupSocket = (server) => {
   io.on("connection", (socket) => {
       
       
-    socket.on("registerUser", ({ userId }) => {
+    socket.on("registerUser", async ({ userId }) =>  {
         socket.join(userId);
-        console.log("User Connection");
+      console.log("User Connection");
+      const deliveredMessages = await updateMessageStatus(userId)
+      if (deliveredMessages.length === 0) {
+        return
+      }
+      for (const deliveredMessage of deliveredMessages) {
+        io.to(deliveredMessage.sender.toString()).to(userId).emit("deliveredAlert", deliveredMessage, deliveredMessage?.chatRoom);
+      }
     });
     
 

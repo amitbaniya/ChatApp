@@ -167,7 +167,6 @@ export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, 
     await addMessage(newMessage, chatRoomId)
     setMessageInput("")
     const toBeUploaded = imageUrls;
-    console.log(toBeUploaded)
     setSelectedImages([]);
     const messageId = newMessage._id
     let uploadedImageUrls = [];

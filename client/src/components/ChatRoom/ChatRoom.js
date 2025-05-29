@@ -18,7 +18,7 @@ const socket = io(API_URL);
 
 function ChatRoom() {
   const { chatRoomId } = useParams();
-  const { currentChat, setCurrentChat, messages, setMessages, addMessage } =
+  const { currentChat, setCurrentChat, messages, setMessages } =
     useChat();
   const { user } = useAuth();
   const navigate = useNavigate();
