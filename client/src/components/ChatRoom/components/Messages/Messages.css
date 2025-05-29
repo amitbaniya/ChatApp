@@ -28,6 +28,7 @@
 .messageContainer {
   display: flex;
   flex-direction: row;
+  
 }
 
 .messageContainer.right {
@@ -39,12 +40,63 @@
   padding: 0.625rem;
   border-radius: 1.5625rem;
   margin-bottom: 0.125rem;
+  position:relative;
+  overflow: hidden;
 }
 
 .messageContainer.right .message {
   background-color: #ab7384;
+  
 }
 
 .ant-spin-dot-holder {
   color: #4a1c2e !important;
+}
+.messageLoading{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 240, 240, 0) 0%,
+    rgba(240, 240, 240, 0.6) 50%,
+    rgba(240, 240, 240, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+  pointer-events: none;
+  backdrop-filter: blur(0.5px)
+}
+
+.statusSigns{
+  background: transparent;
+  padding: 2px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #7d0909;
+    
+}
+
+.statusSigns.sent{
+  color: #4b0082;   
+}
+
+.statusSigns.delivered{
+  color: #4b0082;   
+}
+
+.statusSigns.seen{
+  color: #a35970;   
+}
+
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }

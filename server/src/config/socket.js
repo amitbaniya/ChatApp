@@ -18,27 +18,28 @@ export const setupSocket = (server) => {
         console.log("User Connection");
     });
     
-      
-    socket.on("joinRoom", ({ chatRoomId }) => {
-        socket.join(chatRoomId);
-        console.log("Chat Room Connection");
-    });
 
-    socket.on("sendMessage", async ({ chatRoomId, userId, messageId, uploadedImageUrls,friendId }) => {
+    socket.on("sendMessage", async ({chatRoomId, userId, messageId, uploadedImageUrls,friendId }) => {
       try {
-        const newMessage = await updateMessage(messageId, uploadedImageUrls);
+        const status = 'sent'
+        const newMessage = await updateMessage(status, messageId, uploadedImageUrls);
         io.to(friendId).emit("newMessageAlert", newMessage, chatRoomId)
         io.to(userId).emit("selfMessageAlert",  newMessage, chatRoomId);
-        io.to(chatRoomId).emit("receiveMessage", newMessage, chatRoomId);
 
       } catch (error) {
-        console.error("Error sending message:", error);
-        socket.emit("sendMessageError", {
-          message: "Failed to send message",
-          details: error.message,
-        });
+         const status = 'failed'
+        const newMessage = await updateMessage(status, messageId, uploadedImageUrls);
+        console.error("Error sending message:", error.message);
+        io.to(userId).emit("sendMessageError", error.message, newMessage,chatRoomId);
       }
     });
+
+    socket.on('messageDelivered', async({message,userId
+    }) => {
+      const status = 'delivered'
+      const newMessage = await updateMessage(status, message._id);
+      io.to(newMessage.sender.toString()).to(userId).emit("deliveredAlert", newMessage, newMessage.chatRoom);
+    })
 
     socket.on("disconnect", () => {
       console.log("Client disconnected");

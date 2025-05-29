@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import "./Messages.css";
 import { useAuth } from "../../../../context/AuthContext";
 import { Spin } from "antd";
+import { CheckCircleFilled, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 
 function Messages({ messages, loading }) {
@@ -30,7 +31,26 @@ function Messages({ messages, loading }) {
                     message?.sender === user.id ? "right" : ""
                   }`}
                 >
-                  <div className="message">{message.message}</div>
+                  <div className="message">{message.message}
+                    {message?.sender === user.id && message?.status === 'sending' && (
+                      <div className="messageLoading"></div>
+                    )}
+                  </div>
+                  {message?.sender === user.id &&
+                    <>
+                    {message?.status === 'failed' &&
+                      <CloseCircleOutlined className="statusSigns" />
+                    }
+                  {message?.status === 'sent' &&
+                      <CheckCircleOutlined className="statusSigns sent" />
+                    }
+                  {message?.status === 'delivered' &&
+                      <CheckCircleFilled className="statusSigns delivered" />
+                    }
+                    {message?.status === 'seen' &&
+                      <CheckCircleFilled className="statusSigns seen" />
+                    }
+                    </>}
                 </div>
               ))}
             </>
