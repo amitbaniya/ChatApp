@@ -112,11 +112,18 @@ export const addMessage = async (chatRoomId, userId, messageContent, imageUrls) 
   return message;
 };
 
-export const updateMessage = async (messageId, imageUrls) => {
-  const message = await Message.findByIdAndUpdate(messageId, {
-    status: 'sent',
-    imageUrls:imageUrls
-  },{ new: true } );
+export const updateMessage = async (status, messageId, imageUrls) => {
+  const updateData = { status };
+
+  if (imageUrls && imageUrls.length > 0) {
+    updateData.imageUrls = imageUrls;
+  }
+
+  const message = await Message.findByIdAndUpdate(
+    messageId,
+    updateData,
+    { new: true }
+  );
   return message;
 };
 

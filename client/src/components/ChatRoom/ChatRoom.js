@@ -41,22 +41,6 @@ function ChatRoom() {
     fetchChatRoomData();
   }, [chatRoomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    socket.emit("joinRoom", { chatRoomId });
-
-    socket.on("receiveMessage", (message, chatRoomId) => {
-      //addMessage(message, chatRoomId);
-      
-    });
-
-    socket.on("sendMessageError", (error) => {
-      console.error("Message send failed:", error);
-    });
-
-    return () => {
-      socket.off("receiveMessage");
-    };
-  }, [chatRoomId, addMessage]);
 
   const handleChatRoomData = async (chatRoomId) => {
     try {

@@ -10,7 +10,6 @@ export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [chatList, setChatList] = useState([]);
-
   const addMessage = (newMessage, chatRoomId) => {
     if (chatRoomId === currentChat?.chatRoomId) {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -53,6 +52,38 @@ export const ChatProvider = ({ children }) => {
     );
   };
 
+  const addError = (messageId, chatRoomId) => {
+    if (chatRoomId === currentChat?.chatRoomId) {
+      setMessages((prevMessages) =>
+        prevMessages.map((message) =>
+          message._id === messageId
+            ? { ...message, errorSending: true }
+            : message
+        )
+      );
+    }
+    setChatList((prevChatList) =>
+      prevChatList
+        .map((chatRoom) =>
+          chatRoom.lastMessage?.chatRoom === chatRoomId
+            && chatRoom.lastMessage?._id === messageId
+            ? { ...chatRoom, lastMessage: 
+            {
+                
+              ...chatRoom.lastMessage,
+              errorSending: true,
+            } }
+            : chatRoom
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.lastMessage?.updatedAt) -
+            new Date(a.lastMessage?.updatedAt)
+        )
+    );
+  }
+  
+
   const value = {
     messages,
     setMessages,
@@ -61,7 +92,8 @@ export const ChatProvider = ({ children }) => {
     addMessage,
     chatList,
     setChatList,
-    updateMessageStatus
+    updateMessageStatus,
+    addError
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

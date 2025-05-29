@@ -19,12 +19,11 @@ function MessageInput({ chatRoomId,socket }) {
     try {
       const userId = user.id
       const friendId = currentChat._id;
-      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket, friendId,addMessage);
+      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket, friendId,addMessage, setSelectedImages, setMessageInput);
       
     } catch (error) {
       console.log(error)
     }
-    setMessageInput("");
   };
 
 

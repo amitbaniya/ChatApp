@@ -149,7 +149,7 @@ export const getMessages = async (chatRoomId) => {
   }
 };
 
-export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, friendId,addMessage) => {
+export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, friendId,addMessage,setSelectedImages,setMessageInput) => {
   try {
     let previewUrls = []
     if (imageUrls.length > 0) {
@@ -165,11 +165,15 @@ export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, 
     });
     const newMessage = response.data.newMessage
     await addMessage(newMessage, chatRoomId)
+    setMessageInput("")
+    const toBeUploaded = imageUrls;
+    console.log(toBeUploaded)
+    setSelectedImages([]);
     const messageId = newMessage._id
     let uploadedImageUrls = [];
-    if (imageUrls.length > 0) {
+    if (toBeUploaded.length > 0) {
       uploadedImageUrls = await Promise.all(
-        imageUrls.map((imageUrl) => uploadImageToCloud(imageUrl.file))
+        toBeUploaded.map((imageUrl) => uploadImageToCloud(imageUrl.file))
       );
     }
     socket.emit("sendMessage", {
@@ -179,6 +183,7 @@ export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, 
       uploadedImageUrls,
       friendId
     });
+    
     return {successMessage: "Message sent succesfully"}
 
     

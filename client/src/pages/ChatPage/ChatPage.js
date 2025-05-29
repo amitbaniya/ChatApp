@@ -15,20 +15,22 @@ function ChatPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
-  const { chatList, setCurrentChat, setChatList,addMessage,updateMessageStatus } = useChat();
+  const { chatList, setCurrentChat, setChatList,addMessage,updateMessageStatus, addError } = useChat();
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const userId = user.id
+
+
   useEffect(() => {
-    const userId = user.id
-    
     socket.emit("registerUser", { userId });
   })
   
   useEffect(() => {
+    
     const updateMessages = async (message, chatRoomId) => {
       if (chatList.length === 0) {
-        await ChatList(user.id, setLoading, setError, setChatList);
+        await ChatList(userId, setLoading, setError, setChatList);
       }
       await addMessage(message, chatRoomId);
 
@@ -37,34 +39,51 @@ function ChatPage() {
 
     const updateStatusMessage = async (message, chatRoomId) => {
       if (chatList.length === 0) {
-        await ChatList(user.id, setLoading, setError, setChatList);
+        await ChatList(userId, setLoading, setError, setChatList);
       }
       await updateMessageStatus(message, chatRoomId);
 
     };
-  
+    
+    const deliveredMessageStatus = (message) => {
+      socket.emit("messageDelivered", {
+        message,
+        userId
+      });
+    }
   
     socket.on("newMessageAlert", (message, chatRoomId) => {
-      console.log(message)
       updateMessages(message, chatRoomId);
-     
+      deliveredMessageStatus(message)
     });
 
     socket.on("selfMessageAlert", (message, chatRoomId) => { 
+      updateStatusMessage(message, chatRoomId)
+    });
+    
+    socket.on("deliveredAlert", (message, chatRoomId) => {
+      updateStatusMessage(message, chatRoomId)
+    })
+
+    socket.on("sendMessageError", (error, message, chatRoomId) => {
+      console.error("Message send failed:", error);
       updateStatusMessage(message,chatRoomId)
     });
-
+   
     return () => {
       socket.off("newMessageAlert");
+      socket.off("selfMessageAlert");
+      socket.off("deliveredAlert");
+      socket.off('sendMessageError');
     };
-  }, [chatList, user.id, setLoading, setError, setChatList, addMessage,updateMessageStatus]);
+  }, [chatList, userId, setLoading, setError, setChatList, addMessage,updateMessageStatus,addError]);
   
   
   useEffect(() => {
     
     if (!searchTerm) {
       setError("");
-      ChatList(user.id, setLoading, setError, setChatList);
+      ChatList(userId, setLoading, setError, setChatList);
 
       return;
     }

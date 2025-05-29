@@ -17,12 +17,6 @@ connectDB();
 
 const app = express();
 const server = http.createServer(app);
-/* const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST"],
-  },
-}); */
 
 setupSocket(server)
 // Middleware
@@ -41,30 +35,6 @@ app.use("/api/upload", authMiddleware, uploadRoutes);
 app.use("/api/friends", authMiddleware, friendsRoutes);
 app.use("/api/chatPage", authMiddleware, chatRoutes);
 
-/* io.on("connection", (socket) => {
-  console.log("New client connected");
-
-  socket.on("joinRoom", ({ chatRoomId }) => {
-    socket.join(chatRoomId);
-  });
-
-  socket.on("sendMessage", async ({ chatRoomId, userId, message, uploadedImageUrls }) => {
-    try {
-      const newMessage = await addMessage(chatRoomId, userId, message, uploadedImageUrls);
-      io.to(chatRoomId).emit("receiveMessage", newMessage, chatRoomId);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      socket.emit("sendMessageError", {
-        message: "Failed to send message",
-        details: error.message,
-      });
-    }
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-}); */
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
