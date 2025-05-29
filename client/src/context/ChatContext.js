@@ -32,15 +32,16 @@ export const ChatProvider = ({ children }) => {
   const updateMessageStatus = (newMessage, chatRoomId) => {
     if (chatRoomId === currentChat?.chatRoomId) {
       setMessages((prevMessages) =>  {
-        const updated = [...prevMessages];
-        updated[updated.length - 1] = newMessage;
-        return updated;
+        return prevMessages.map((message) =>
+          message._id === newMessage._id ? newMessage : message
+        );
       });
     }
     setChatList((prevChatList) =>
       prevChatList
         .map((chatRoom) =>
-          chatRoom.lastMessage?.chatRoom === chatRoomId
+          chatRoom.lastMessage?.chatRoom === chatRoomId &&
+            chatRoom.lastMessage._id === newMessage._id
             ? { ...chatRoom, lastMessage: newMessage }
             : chatRoom
         )
