@@ -21,7 +21,7 @@ export const setupSocket = (server) => {
         return
       }
       for (const deliveredMessage of deliveredMessages) {
-        io.to(deliveredMessage.sender.toString()).to(userId).emit("deliveredAlert", deliveredMessage, deliveredMessage?.chatRoom);
+        io.to(deliveredMessage.sender.toString()).to(userId).emit("statusAlert", deliveredMessage, deliveredMessage?.chatRoom);
       }
     });
     
@@ -45,7 +45,14 @@ export const setupSocket = (server) => {
     }) => {
       const status = 'delivered'
       const newMessage = await updateMessage(status, message._id);
-      io.to(newMessage.sender.toString()).to(userId).emit("deliveredAlert", newMessage, newMessage.chatRoom);
+      io.to(newMessage.sender.toString()).to(userId).emit("statusAlert", newMessage, newMessage.chatRoom);
+    })
+
+    socket.on('messageSeen', async({message,userId
+    }) => {
+      const status = 'seen'
+      const newMessage = await updateMessage(status, message._id);
+      io.to(newMessage.sender.toString()).to(userId).emit("statusAlert", newMessage, newMessage.chatRoom);
     })
 
     socket.on("disconnect", () => {

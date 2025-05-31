@@ -2,18 +2,26 @@ import React, { useEffect, useRef } from "react";
 import "./Messages.css";
 import { useAuth } from "../../../../context/AuthContext";
 import { Spin } from "antd";
-import { CheckCircleFilled, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-
+import { io } from "socket.io-client";
+import { API_URL } from "../../../../services/Constants";
+import Message from "./components/Message"
+const socket = io(API_URL);
 
 function Messages({ messages, loading }) {
-  const { user } = useAuth();
+ const { user } = useAuth(); 
   const chatContainerRef = useRef(null);
+  
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const handleSeen = (message) => {
+   socket.emit("messageSeen", { message, userId:user.id}); 
+};
+
   return (
     <>
       {loading ? (
@@ -24,34 +32,8 @@ function Messages({ messages, loading }) {
         <div className="chatContainer" ref={chatContainerRef}>
           {messages.length !== 0 ? (
             <>
-              {messages.map((message) => (
-                <div
-                  key={message._id}
-                  className={`messageContainer ${
-                    message?.sender === user.id ? "right" : ""
-                  }`}
-                >
-                  <div className="message">{message.message}
-                    {message?.sender === user.id && message?.status === 'sending' && (
-                      <div className="messageLoading"></div>
-                    )}
-                  </div>
-                  {message?.sender === user.id &&
-                    <>
-                    {message?.status === 'failed' &&
-                      <CloseCircleOutlined className="statusSigns" />
-                    }
-                  {message?.status === 'sent' &&
-                      <CheckCircleOutlined className="statusSigns sent" />
-                    }
-                  {message?.status === 'delivered' &&
-                      <CheckCircleFilled className="statusSigns delivered" />
-                    }
-                    {message?.status === 'seen' &&
-                      <CheckCircleFilled className="statusSigns seen" />
-                    }
-                    </>}
-                </div>
+                {messages.map((message) => (
+                  <Message key={message._id}  message={message} onSeen={handleSeen} />
               ))}
             </>
           ) : (
