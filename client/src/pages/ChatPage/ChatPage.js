@@ -61,9 +61,10 @@ function ChatPage() {
       updateStatusMessage(message, chatRoomId)
     });
     
-    socket.on("deliveredAlert", (message, chatRoomId) => {
+    socket.on("statusAlert", (message, chatRoomId) => {
       updateStatusMessage(message, chatRoomId)
     })
+
 
     socket.on("sendMessageError", (error, message, chatRoomId) => {
       console.error("Message send failed:", error);
@@ -73,7 +74,7 @@ function ChatPage() {
     return () => {
       socket.off("newMessageAlert");
       socket.off("selfMessageAlert");
-      socket.off("deliveredAlert");
+      socket.off("statusAlert");
       socket.off('sendMessageError');
     };
   }, [chatList, userId, setLoading, setError, setChatList, addMessage,updateMessageStatus,addError]);
