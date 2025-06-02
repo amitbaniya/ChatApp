@@ -29,6 +29,10 @@
   flex-direction: column;
   white-space: nowrap;
 }
+
+.friendDetails.notSeen{
+  font-weight: bolder;
+}
 .ant-skeleton-title {
   margin: 0px !important;
   margin-bottom: 0.4rem !important;

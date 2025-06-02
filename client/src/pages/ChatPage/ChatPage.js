@@ -79,17 +79,19 @@ function ChatPage() {
     };
   }, [chatList, userId, setLoading, setError, setChatList, addMessage,updateMessageStatus,addError]);
   
-  
+  const getChatList = async () => {
+    await ChatList(userId, setLoading, setError, setChatList);
+  }
   useEffect(() => {
     
     if (!searchTerm) {
-      setError("");
-      ChatList(userId, setLoading, setError, setChatList);
-
+      
+      getChatList();
       return;
     }
 
     const timer = setTimeout(() => {
+      
       handleSearch(searchTerm, setChatList, setLoading, setError);
     }, 500);
 
@@ -105,6 +107,7 @@ function ChatPage() {
   }, [location]);
 
   const onUserClick = async (friend) => {
+    setSearchTerm("")
     const chatRoom = await handleChatRoom(
       user.id,
       friend._id,
@@ -114,6 +117,7 @@ function ChatPage() {
     const chatRoomId = chatRoom._id
     const updatedFriend = { ...friend, chatRoomId };
     setCurrentChat(updatedFriend);
+    await ChatList(userId, setLoading, setError, setChatList);
     navigate(`/${chatRoom._id}`);
     setShowChat(true);
   };

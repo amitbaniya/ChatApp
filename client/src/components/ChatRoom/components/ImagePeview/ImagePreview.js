@@ -21,9 +21,6 @@ function ImagePreview({ selectedImages,setSelectedImages }) {
                     <img src={selectedImage.previewUrl} alt="preview" className="uploadedImage"/>
                     <CloseOutlined
                         className="removeButton"
-                        style={{
-                        
-                        }}
                         onClick={() => handleRemove(selectedImage.previewUrl)}
                     />
                 </div>

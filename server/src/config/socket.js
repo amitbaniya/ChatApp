@@ -14,7 +14,7 @@ export const setupSocket = (server) => {
       
       
     socket.on("registerUser", async ({ userId }) =>  {
-        socket.join(userId);
+      socket.join(userId);
       console.log("User Connection");
       const deliveredMessages = await updateMessageStatus(userId)
       if (deliveredMessages.length === 0) {
