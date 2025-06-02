@@ -13,9 +13,16 @@ function MessageInput({ chatRoomId,socket }) {
   const { user } = useAuth();
   const [messageInput, setMessageInput] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
-  const { currentChat,addMessage } = useChat();
+  const { currentChat, addMessage } = useChat();
+  const [inputError, setInputError] = useState(false);
+  
   const handleSend = async () => {
-    if (!messageInput.trim()) return;
+    if (!messageInput.trim() && selectedImages.length === 0) {
+      setInputError(true);
+      return;
+    }
+
+    setInputError(false);
     try {
       const userId = user.id
       const friendId = currentChat._id;
@@ -28,6 +35,7 @@ function MessageInput({ chatRoomId,socket }) {
 
 
   const onImageUpload = (newImages) => {
+    console.log(selectedImages)
     // Send publicId to backend
     setSelectedImages(prev => [...prev, ...newImages]);
   };
@@ -39,10 +47,13 @@ function MessageInput({ chatRoomId,socket }) {
         <ImagePreview selectedImages={selectedImages} setSelectedImages={setSelectedImages} />
     )}
       <Input
-        placeholder="Send message"
-        className="messageInput"
+        placeholder={`${inputError ? "Please enter something or upload images before sending." : "Send Message"}` }
+        className={`messageInput ${inputError ? "error" : ""}` }
         value={messageInput}
-        onChange={(e) => setMessageInput(e.target.value)}
+        onChange={(e) => {
+          setMessageInput(e.target.value);
+          setInputError(false); 
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();

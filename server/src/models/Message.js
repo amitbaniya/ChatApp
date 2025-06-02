@@ -12,9 +12,8 @@ const MessageSchema = new mongoose.Schema(
       ref: "ChatRoom",
       required: true,
     },
-    message: { type: String, default: "" },
+    text: { type: String, default: "" },
     imageUrls: [{ type: String, default: "" }],
-
     status: {
       type: String,
       enum: ["sending","failed", "sent", "delivered", "seen"],

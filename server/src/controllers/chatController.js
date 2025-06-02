@@ -66,7 +66,7 @@ export const sendMessage = async (req, res) => {
   try {
     const { message, userId, chatRoomId,imageUrls } = req.body;
 
-    if (!message || !userId || !chatRoomId) {
+    if ( !userId || !chatRoomId) {
       return res
         .status(400)
         .json({ message: "message, userId, chatRoom all are required" });
@@ -75,7 +75,7 @@ export const sendMessage = async (req, res) => {
     const newMessage = await Message.create({
       sender: userId,
       chatRoom: chatRoomId,
-      message: message,
+      text: message,
       imageUrls: imageUrls,
     });
 
@@ -96,7 +96,7 @@ export const addMessage = async (chatRoomId, userId, messageContent, imageUrls) 
   const message = new Message({
     chatRoom: chatRoomId,
     sender: userId,
-    message: messageContent,
+    text: messageContent,
     imageUrls:imageUrls,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -171,22 +171,21 @@ export const chatList = async (req, res) => {
     const { userId } = req.query;
 
     const user = await User.findById(userId).populate("friends");
+    
     const friends = user.friends;
     const chatRooms = await ChatRoom.find({
       members: { $in: [userId] },
     })
       .populate("lastMessage")
       .sort({ updatedAt: -1 });
-
     const users = await Promise.all(
       chatRooms
-        .filter((chatRoom) => chatRoom.lastMessage) // Filter out chat rooms without a lastMessage
         .map(async (chatRoom) => {
           const otherMemberId = chatRoom.members.find(
             (member) => member.toString() !== userId
           );
+          
           const otherMember = await User.findById(otherMemberId);
-
           return {
             _id: otherMember._id,
             firstname: otherMember.firstname,

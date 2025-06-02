@@ -17,27 +17,6 @@ function ImageSelector({ onUpload, icon }) {
     if (onUpload) onUpload(newImages);
   };
 
-  /* const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploading(true);
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET);
-    try {
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        formData
-        );
-      if (onUpload) onUpload(res.data.secure_url);
-    } catch (err) {
-      alert("Upload failed");
-    } finally {
-      setUploading(false);
-      e.target.value = ""; // Reset file input
-    }
-  }; */
 
   return (
     <>

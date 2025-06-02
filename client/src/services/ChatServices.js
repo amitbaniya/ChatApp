@@ -164,7 +164,7 @@ export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, 
       imageUrls:previewUrls
     });
     const newMessage = response.data.newMessage
-    await addMessage(newMessage, chatRoomId)
+    await addMessage(newMessage, chatRoomId,friendId)
     setMessageInput("")
     const toBeUploaded = imageUrls;
     setSelectedImages([]);

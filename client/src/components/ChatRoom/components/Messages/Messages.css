@@ -100,3 +100,122 @@
     transform: translateX(100%);
   }
 }
+.imageGridContainer {
+  display: flex;
+  gap: 0px;
+  position: relative;
+  overflow-x: auto;
+  max-width: 100%; /* prevent container from growing too wide */
+  padding: 10px 0;
+}
+
+.imageMessageContainer {
+  position: relative;
+  margin-left: -140px; /* overlap images to the left */
+  z-index: 1;
+  
+}
+
+.imageMessageContainer:first-child {
+  margin-left: 0; /* no overlap for first image */
+ 
+}
+
+.imageMessage {
+  height: 150px;
+  width: 150px;
+  border-radius: 15px;
+  background-color: grey;
+}
+
+.downloadButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  color: white;
+}
+
+.imagePreviewOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.previewImageContainer {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0 10px;
+  user-select: none;
+}
+
+.prevButton {
+  font-size: 3rem;
+  left: 10px;
+  height:200px;
+  color:#e195ab;
+}
+
+.nextButton {
+  font-size: 3rem;
+  right: 10px;
+  color:#e195ab;
+  height:200px;
+}
+
+.closeButton {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color:#e195ab;
+}
+
+@media (max-width: 600px) {
+  .navButton,
+  .closeButton {
+    font-size: 2.5rem;
+    padding: 10px;
+  }
+
+  .closeButton{
+    top:-15px;
+    right:-5px;
+  }
+}
+
+
+
+
