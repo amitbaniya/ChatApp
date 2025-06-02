@@ -28,6 +28,7 @@
 .messageContainer {
   display: flex;
   flex-direction: row;
+  align-items: center;
   
 }
 
@@ -52,6 +53,15 @@
 .ant-spin-dot-holder {
   color: #4a1c2e !important;
 }
+
+.senderPicture {
+  background-image: var(--profile-bg);
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.3rem;
+}
+
 .messageLoading{
   position: absolute;
   top: 0;
