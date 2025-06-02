@@ -37,13 +37,18 @@ function UserList({ onUserClick, loading }) {
             }`}
             onClick={() => handleChatRoom(friend)}
           >
-            <div className="profilePicture">
+          <div className="profilePicture">
+            {friend.profilePicture === "" ?
+              <Avatar className="profile default">
+                          {friend.firstname.charAt(0)}
+              </Avatar> :
               <Avatar
-                className="profile"
-                style={{
-                  "--profile-bg": `url(${PROFILE_URL}/${friend.profilePicture})`,
-                }}
-              ></Avatar>
+              className="profile"
+              style={{
+                "--profile-bg": `url(${friend.profilePicture})`,
+              }}
+              ></Avatar>}
+             
             </div>
             <div className={`friendDetails ${friend.lastMessage.status !=="seen" && friend.lastMessage.sender !== user.id ? "notSeen" : ""}`}>
               <span>{`${friend.firstname} ${friend.lastname}`}</span>

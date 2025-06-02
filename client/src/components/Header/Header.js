@@ -23,12 +23,16 @@ function Header() {
             className="logout-button-icon"
             onClick={handleLogout}
           />
+         {user.profilePicture === "" ?
+          <Avatar className="main-profile default">
+           {user.firstname.charAt(0)}
+          </Avatar> :
           <Avatar
             className="main-profile"
             style={{
-              "--profile-bg": `url(${PROFILE_URL}/default.png)`,
+              "--profile-bg": `url(${user.profilePicture})`,
             }}
-          ></Avatar>
+        ></Avatar> }
         </div>
       )}
     </header>

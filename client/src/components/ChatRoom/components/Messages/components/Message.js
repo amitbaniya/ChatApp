@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../../../context/AuthContext";
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleOutlined, DownloadOutlined } from "@ant-design/icons";
+import { useChat } from "../../../../../context/ChatContext";
+import { Avatar } from "antd";
 
 const Message = ({ message, onSeen }) => {
   const ref = useRef();
   const { user } = useAuth();
-  const[previewIndex,setPreviewIndex] = useState(null)
+  const [previewIndex, setPreviewIndex] = useState(null)
+  const { currentChat } = useChat();
 
   useEffect(() => {
     if (message.sender === user.id) return;
@@ -39,6 +42,20 @@ const Message = ({ message, onSeen }) => {
             message?.sender === user.id ? "right" : ""
           }`}
     >
+      {message.sender !== user.id &&
+      <>
+        {currentChat.profilePicture === "" ?
+          <Avatar className="senderPicture default">
+           {currentChat.firstname.charAt(0)}
+          </Avatar> :
+          <Avatar
+            className="senderPicture"
+            style={{
+              "--profile-bg": `url(${currentChat.profilePicture})`,
+            }}
+        ></Avatar> }</>
+       }
+     
         {message.text !== "" &&
           <div ref={ref} className="message">
             {message.text}
