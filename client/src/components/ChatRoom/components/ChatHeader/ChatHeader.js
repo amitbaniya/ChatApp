@@ -18,12 +18,17 @@ function ChatHeader({ currentChat, loading }) {
         </div>
       ) : (
         <div className="chatHeader">
+        {currentChat.profilePicture === "" ?
+          <Avatar className="chatProfile default">
+            {currentChat.firstname.charAt(0)}
+          </Avatar> :
           <Avatar
             className="chatProfile"
             style={{
-              "--profile-bg": `url(${PROFILE_URL}/${currentChat.profilePicture})`,
+              "--profile-bg": `url(${currentChat.profilePicture})`,
             }}
-          ></Avatar>
+        ></Avatar> }
+               
 
           <h1 className="chatName">
             {" "}

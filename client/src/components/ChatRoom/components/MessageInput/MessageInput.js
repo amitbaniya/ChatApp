@@ -1,16 +1,59 @@
 import React from "react";
 import "./MessageInput.css";
 import { Input } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import { PictureOutlined, SendOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { useAuth } from "../../../../context/AuthContext";
+import ImagePreview from "../ImagePeview/ImagePreview";
+import ImageSelector from "../ImageSelector/ImageSelector";
+import { sendMessage } from "../../../../services/ChatServices";
+import { useChat } from "../../../../context/ChatContext";
 
-function MessageInput({ handleSend, messageInput, setMessageInput }) {
+function MessageInput({ chatRoomId,socket }) {
+  const { user } = useAuth();
+  const [messageInput, setMessageInput] = useState("");
+  const [selectedImages, setSelectedImages] = useState([]);
+  const { currentChat, addMessage } = useChat();
+  const [inputError, setInputError] = useState(false);
+  
+  const handleSend = async () => {
+    if (!messageInput.trim() && selectedImages.length === 0) {
+      setInputError(true);
+      return;
+    }
+
+    setInputError(false);
+    try {
+      const userId = user.id
+      const friendId = currentChat._id;
+      await sendMessage(chatRoomId, userId, messageInput, selectedImages, socket, friendId,addMessage, setSelectedImages, setMessageInput);
+      
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+
+  const onImageUpload = (newImages) => {
+    console.log(selectedImages)
+    // Send publicId to backend
+    setSelectedImages(prev => [...prev, ...newImages]);
+  };
+
+
   return (
     <div className="messageInputContainer">
+       {selectedImages && (
+        <ImagePreview selectedImages={selectedImages} setSelectedImages={setSelectedImages} />
+    )}
       <Input
-        placeholder="Send message"
-        className="messageInput"
+        placeholder={`${inputError ? "Please enter something or upload images before sending." : "Send Message"}` }
+        className={`messageInput ${inputError ? "error" : ""}` }
         value={messageInput}
-        onChange={(e) => setMessageInput(e.target.value)}
+        onChange={(e) => {
+          setMessageInput(e.target.value);
+          setInputError(false); 
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
@@ -18,6 +61,7 @@ function MessageInput({ handleSend, messageInput, setMessageInput }) {
           }
         }}
       ></Input>
+      <ImageSelector onUpload={onImageUpload} icon={<PictureOutlined className="uploadButton" />} />
       <SendOutlined className="sendButton" onClick={handleSend} />
     </div>
   );

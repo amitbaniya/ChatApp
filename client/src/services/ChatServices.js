@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ApiInstance } from "./ApiInstance";
 
 export const chatPage = async (credentials) => {
@@ -148,14 +149,43 @@ export const getMessages = async (chatRoomId) => {
   }
 };
 
-export const sendMessage = async (chatRoomId, userId, message) => {
+export const sendMessage = async (chatRoomId, userId, message,imageUrls,socket, friendId,addMessage,setSelectedImages,setMessageInput) => {
   try {
+    let previewUrls = []
+    if (imageUrls.length > 0) {
+      previewUrls = await Promise.all(
+        imageUrls.map((imageUrl) => imageUrl.previewUrl)
+      );
+    }
     const response = await ApiInstance.post("/api/chatPage/chatRoom/message", {
       chatRoomId: chatRoomId,
       userId: userId,
       message: message,
+      imageUrls:previewUrls
     });
-    return response.data.newMessage;
+    const newMessage = response.data.newMessage
+    await addMessage(newMessage, chatRoomId,friendId)
+    setMessageInput("")
+    const toBeUploaded = imageUrls;
+    setSelectedImages([]);
+    const messageId = newMessage._id
+    let uploadedImageUrls = [];
+    if (toBeUploaded.length > 0) {
+      uploadedImageUrls = await Promise.all(
+        toBeUploaded.map((imageUrl) => uploadImageToCloud(imageUrl.file))
+      );
+    }
+    socket.emit("sendMessage", {
+      chatRoomId,
+      userId,
+      messageId,
+      uploadedImageUrls,
+      friendId
+    });
+    
+    return {successMessage: "Message sent succesfully"}
+
+    
   } catch (error) {
     console.error(
       "Chat Page Friends List error:",
@@ -164,3 +194,27 @@ export const sendMessage = async (chatRoomId, userId, message) => {
     throw error;
   }
 };
+
+export const uploadImageToCloud = async (imageFile) => {
+    const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+    const UPLOAD_PRESET = process.env.REACT_APP_CLOUD_UPLOAD_PRESET;
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        formData
+        );
+    
+    return response.data.secure_url;
+  } catch (error) {
+    console.error(
+      "Chat Page Friends List error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+

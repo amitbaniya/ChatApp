@@ -5,6 +5,7 @@
   padding: 0.3125rem 0.3125rem;
   background-color: #ab7384;
   color: #4a1c2e;
+  align-items: center;
 }
 
 .messageInput {
@@ -16,6 +17,11 @@
   color: inherit;
   transition: font-size 0.5s ease !important;
   font-size: 1rem;
+}
+
+.messageInput.error::placeholder {
+ color: #4a1c2e;
+  
 }
 
 .messageInput::placeholder {
@@ -45,3 +51,15 @@
   opacity: 75%;
   font-size: 1.0625rem;
 }
+
+.uploadButton {
+  align-self: center;
+  font-size: 1.2rem;
+  transition: font-size 0.5s ease !important;
+}
+
+.uploadButton:hover {
+  opacity: 75%;
+  font-size: 1.3rem;
+}
+

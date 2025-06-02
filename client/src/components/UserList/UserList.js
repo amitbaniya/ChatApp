@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 function UserList({ onUserClick, loading }) {
   const { currentChat, chatList } = useChat();
   const { user } = useAuth();
+  
   const handleChatRoom = (friend) => {
     onUserClick(friend);
   };
@@ -36,25 +37,30 @@ function UserList({ onUserClick, loading }) {
             }`}
             onClick={() => handleChatRoom(friend)}
           >
-            <div className="profilePicture">
+          <div className="profilePicture">
+            {friend.profilePicture === "" ?
+              <Avatar className="profile default">
+                          {friend.firstname.charAt(0)}
+              </Avatar> :
               <Avatar
-                className="profile"
-                style={{
-                  "--profile-bg": `url(${PROFILE_URL}/${friend.profilePicture})`,
-                }}
-              ></Avatar>
+              className="profile"
+              style={{
+                "--profile-bg": `url(${friend.profilePicture})`,
+              }}
+              ></Avatar>}
+             
             </div>
-            <div className="friendDetails">
+            <div className={`friendDetails ${friend.lastMessage.status !=="seen" && friend.lastMessage.sender !== user.id ? "notSeen" : ""}`}>
               <span>{`${friend.firstname} ${friend.lastname}`}</span>
               {friend.lastMessage && (
                 <div>
                   {friend.lastMessage.sender === user.id ? (
                     <span className="lastChat">
-                      You: {friend.lastMessage.message}
+                      You: {friend.lastMessage.text !==""? friend.lastMessage.text: "📸Photo"}
                     </span>
                   ) : (
                     <span className="lastChat">
-                      {friend.lastMessage.message}
+                      {friend.lastMessage.text !==""? friend.lastMessage.text: "📸Photo"}
                     </span>
                   )}
                 </div>

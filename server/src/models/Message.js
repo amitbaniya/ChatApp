@@ -12,13 +12,17 @@ const MessageSchema = new mongoose.Schema(
       ref: "ChatRoom",
       required: true,
     },
-    message: { type: String, default: "" },
-    fileUrl: { type: String, default: "" },
+    text: { type: String, default: "" },
+    imageUrls: [{ type: String, default: "" }],
     status: {
       type: String,
-      enum: ["sent", "delivered", "seen"],
-      default: "sent",
+      enum: ["sending","failed", "sent", "delivered", "seen"],
+      default: "sending",
     },
+
+    deliveredAt: { type: Date },
+    seenAt: { type: Date },
+
     deletedFor: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }

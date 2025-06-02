@@ -1,19 +1,27 @@
 import React, { useEffect, useRef } from "react";
 import "./Messages.css";
 import { useAuth } from "../../../../context/AuthContext";
-import { Skeleton, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import { io } from "socket.io-client";
+import { API_URL } from "../../../../services/Constants";
+import Message from "./components/Message"
+const socket = io(API_URL);
 
 function Messages({ messages, loading }) {
-  const { user } = useAuth();
+ const { user } = useAuth(); 
   const chatContainerRef = useRef(null);
-
+  
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const handleSeen = (message) => {
+   socket.emit("messageSeen", { message, userId:user.id}); 
+};
+
   return (
     <>
       {loading ? (
@@ -24,15 +32,8 @@ function Messages({ messages, loading }) {
         <div className="chatContainer" ref={chatContainerRef}>
           {messages.length !== 0 ? (
             <>
-              {messages.map((message) => (
-                <div
-                  key={message._id}
-                  className={`messageContainer ${
-                    message?.sender === user.id ? "right" : ""
-                  }`}
-                >
-                  <div className="message">{message.message}</div>
-                </div>
+                {messages.map((message) => (
+                  <Message key={message._id}  message={message} onSeen={handleSeen} />
               ))}
             </>
           ) : (

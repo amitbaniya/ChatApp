@@ -10,20 +10,15 @@ import authMiddleware from "./middleware/authMiddleware.js";
 import http from "http";
 import { Server } from "socket.io";
 import { addMessage, sendMessage } from "./controllers/chatController.js";
+import { setupSocket } from "./config/socket.js";
 
 dotenv.config();
 connectDB();
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST"],
-  },
-});
 
-//Process.env not working i think
+setupSocket(server)
 // Middleware
 const allowedOrigins = ["https://chat-app-yuyu.vercel.app"];
 const corsOptions = {
@@ -52,22 +47,6 @@ app.use("/api/upload", authMiddleware, uploadRoutes);
 app.use("/api/friends", authMiddleware, friendsRoutes);
 app.use("/api/chatPage", authMiddleware, chatRoutes);
 
-io.on("connection", (socket) => {
-  console.log("New client connected");
-
-  socket.on("joinRoom", ({ chatRoomId }) => {
-    socket.join(chatRoomId);
-  });
-
-  socket.on("sendMessage", async ({ chatRoomId, userId, message }) => {
-    const newMessage = await addMessage(chatRoomId, userId, message);
-    io.to(chatRoomId).emit("receiveMessage", newMessage);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-});
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -18,11 +18,10 @@ const socket = io(API_URL);
 
 function ChatRoom() {
   const { chatRoomId } = useParams();
-  const { currentChat, setCurrentChat, messages, setMessages, addMessage } =
+  const { currentChat, setCurrentChat, messages, setMessages } =
     useChat();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [messageInput, setMessageInput] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +30,7 @@ function ChatRoom() {
       try {
         setLoading(true);
         const friendId = await handleChatRoomData(chatRoomId);
-        await handleChatRoomFriend(friendId);
+        await handleChatRoomFriend(friendId,chatRoomId);
         await handleGetMessages(chatRoomId);
       } catch (err) {
         console.log(err.response?.data || "An error occurred.");
@@ -42,26 +41,16 @@ function ChatRoom() {
     fetchChatRoomData();
   }, [chatRoomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    socket.emit("joinRoom", { chatRoomId });
-
-    socket.on("receiveMessage", (message) => {
-      addMessage(message, chatRoomId);
-    });
-
-    return () => {
-      socket.off("receiveMessage");
-    };
-  }, [chatRoomId, addMessage]);
 
   const handleChatRoomData = async (chatRoomId) => {
     try {
       const chatRoomData = await getChatRoomData(chatRoomId);
-      if (chatRoomData.members.includes(user.id)) {
+      if (chatRoomData?.members.includes(user.id)) {
         setIsMember(true);
       } else {
         setIsMember(false);
         navigate("/");
+        return;
       }
       if (user.id === chatRoomData.members[0]) {
         return chatRoomData.members[1];
@@ -73,10 +62,11 @@ function ChatRoom() {
     }
   };
 
-  const handleChatRoomFriend = async (friendId) => {
+  const handleChatRoomFriend = async (friendId,chatRoomId) => {
     try {
       const friend = await getFriend(friendId);
-      setCurrentChat(friend);
+      const updatedFriend = { ...friend, chatRoomId };
+      setCurrentChat(updatedFriend);
     } catch (err) {
       console.log(err.response?.data || "An error occurred.");
     }
@@ -91,17 +81,7 @@ function ChatRoom() {
     }
   };
 
-  const handleSend = async () => {
-    if (!messageInput.trim()) return;
-
-    socket.emit("sendMessage", {
-      chatRoomId,
-      userId: user.id,
-      message: messageInput,
-    });
-
-    setMessageInput("");
-  };
+  
 
   return (
     <>
@@ -110,9 +90,8 @@ function ChatRoom() {
           <ChatHeader currentChat={currentChat} loading={loading} />
           <Messages messages={messages} loading={loading} />
           <MessageInput
-            handleSend={handleSend}
-            messageInput={messageInput}
-            setMessageInput={setMessageInput}
+            chatRoomId={chatRoomId}
+            socket={socket}
           />
         </>
       )}

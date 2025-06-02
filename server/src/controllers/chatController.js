@@ -64,9 +64,9 @@ export const createChatRoom = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { message, userId, chatRoomId } = req.body;
+    const { message, userId, chatRoomId,imageUrls } = req.body;
 
-    if (!message || !userId || !chatRoomId) {
+    if ( !userId || !chatRoomId) {
       return res
         .status(400)
         .json({ message: "message, userId, chatRoom all are required" });
@@ -75,7 +75,8 @@ export const sendMessage = async (req, res) => {
     const newMessage = await Message.create({
       sender: userId,
       chatRoom: chatRoomId,
-      message: message,
+      text: message,
+      imageUrls: imageUrls,
     });
 
     await ChatRoom.findByIdAndUpdate(
@@ -91,11 +92,12 @@ export const sendMessage = async (req, res) => {
   }
 };
 
-export const addMessage = async (chatRoomId, userId, messageContent) => {
+export const addMessage = async (chatRoomId, userId, messageContent, imageUrls) => {
   const message = new Message({
     chatRoom: chatRoomId,
     sender: userId,
-    message: messageContent,
+    text: messageContent,
+    imageUrls:imageUrls,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
@@ -109,6 +111,42 @@ export const addMessage = async (chatRoomId, userId, messageContent) => {
 
   return message;
 };
+
+export const updateMessage = async (status, messageId, imageUrls) => {
+  const updateData = { status };
+
+  if (imageUrls && imageUrls.length > 0) {
+    updateData.imageUrls = imageUrls;
+  }
+
+  const message = await Message.findByIdAndUpdate(
+    messageId,
+    updateData,
+    { new: true }
+  );
+  return message;
+};
+
+export const updateMessageStatus = async (userId) => {
+  
+  const chatRooms = await ChatRoom.find({ members: userId }).select('_id');
+  const chatRoomIds = chatRooms.map(r => r._id);
+ 
+  let deliveredMessages = []
+  const messagesToDeliver = await Message.find({
+    chatRoom: { $in: chatRoomIds },
+    sender: { $ne: userId },
+    status: "sent"
+  });
+  for (const message of messagesToDeliver) {
+    message.status = "delivered";
+    await message.save();
+    
+    deliveredMessages.push(message)
+  }
+  
+  return deliveredMessages
+}
 
 export const getMessages = async (req, res) => {
   try {
@@ -133,22 +171,21 @@ export const chatList = async (req, res) => {
     const { userId } = req.query;
 
     const user = await User.findById(userId).populate("friends");
+    
     const friends = user.friends;
     const chatRooms = await ChatRoom.find({
       members: { $in: [userId] },
     })
       .populate("lastMessage")
       .sort({ updatedAt: -1 });
-
     const users = await Promise.all(
       chatRooms
-        .filter((chatRoom) => chatRoom.lastMessage) // Filter out chat rooms without a lastMessage
         .map(async (chatRoom) => {
           const otherMemberId = chatRoom.members.find(
             (member) => member.toString() !== userId
           );
+          
           const otherMember = await User.findById(otherMemberId);
-
           return {
             _id: otherMember._id,
             firstname: otherMember.firstname,

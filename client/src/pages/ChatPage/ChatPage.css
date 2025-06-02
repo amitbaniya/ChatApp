@@ -9,7 +9,7 @@
 
 .chatRoom {
   width: 75%;
-  max-width: 75%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   margin: 0.625rem;
