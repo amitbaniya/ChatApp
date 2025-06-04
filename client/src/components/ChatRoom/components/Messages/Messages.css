@@ -183,7 +183,7 @@
   background: none;
   border: none;
   color: white;
-  cursor: pointer;
+  cursor:pointer;
   padding: 0 10px;
   user-select: none;
 }
@@ -193,6 +193,10 @@
   left: 10px;
   height:200px;
   color:#e195ab;
+}
+
+.navButton:active{
+  background-color: transparent;
 }
 
 .nextButton {
