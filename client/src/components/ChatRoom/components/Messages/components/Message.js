@@ -82,19 +82,24 @@ const Message = ({ message, onSeen }) => {
                 src={message.imageUrls[previewIndex]}
                 alt="full preview"
                 className="previewImage"
-              />
-              <button
-                className="navButton prevButton"
-                onClick={() => setPreviewIndex(prev => (prev - 1 + message.imageUrls.length) % message.imageUrls.length)}
-              >
-                ‹
-              </button>
-              <button
-                className="navButton nextButton"
-                onClick={() => setPreviewIndex(prev => (prev + 1) % message.imageUrls.length)}
-              >
-                ›
-              </button>
+                />
+                {message.imageUrls.length > 1 &&
+                  <>
+                    <button
+                      className="navButton prevButton"
+                      onClick={() => setPreviewIndex(prev => (prev - 1 + message.imageUrls.length) % message.imageUrls.length)}
+                    >
+                      ‹
+                    </button>
+                    <button
+                      className="navButton nextButton"
+                      onClick={() => setPreviewIndex(prev => (prev + 1) % message.imageUrls.length)}
+                    >
+                      ›
+                    </button>
+                  </>
+              }
+              
               <button className="closeButton" onClick={() => setPreviewIndex(null)}>×</button>
             </div>
           </div>
