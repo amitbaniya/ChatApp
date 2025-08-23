@@ -11,9 +11,9 @@ export const setupSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-      
-      
-    socket.on("registerUser", async ({ userId }) =>  {
+
+
+    socket.on("registerUser", async ({ userId }) => {
       socket.join(userId);
       console.log("User Connection");
       const deliveredMessages = await updateMessageStatus(userId)
@@ -24,31 +24,31 @@ export const setupSocket = (server) => {
         io.to(deliveredMessage.sender.toString()).to(userId).emit("statusAlert", deliveredMessage, deliveredMessage?.chatRoom);
       }
     });
-    
 
-    socket.on("sendMessage", async ({chatRoomId, userId, messageId, uploadedImageUrls,friendId }) => {
+
+    socket.on("sendMessage", async ({ chatRoomId, userId, messageId, uploadedImageUrls, friendId }) => {
       try {
         const status = 'sent'
         const newMessage = await updateMessage(status, messageId, uploadedImageUrls);
         io.to(friendId).emit("newMessageAlert", newMessage, chatRoomId)
-        io.to(userId).emit("selfMessageAlert",  newMessage, chatRoomId);
+        io.to(userId).emit("selfMessageAlert", newMessage, chatRoomId);
 
       } catch (error) {
-         const status = 'failed'
+        const status = 'failed'
         const newMessage = await updateMessage(status, messageId, uploadedImageUrls);
         console.error("Error sending message:", error.message);
-        io.to(userId).emit("sendMessageError", error.message, newMessage,chatRoomId);
+        io.to(userId).emit("sendMessageError", error.message, newMessage, chatRoomId);
       }
     });
 
-    socket.on('messageDelivered', async({message,userId
+    socket.on('messageDelivered', async ({ message, userId
     }) => {
       const status = 'delivered'
       const newMessage = await updateMessage(status, message._id);
       io.to(newMessage.sender.toString()).to(userId).emit("statusAlert", newMessage, newMessage.chatRoom);
     })
 
-    socket.on('messageSeen', async({message,userId
+    socket.on('messageSeen', async ({ message, userId
     }) => {
       const status = 'seen'
       const newMessage = await updateMessage(status, message._id);

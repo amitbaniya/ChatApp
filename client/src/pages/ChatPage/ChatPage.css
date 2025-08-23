@@ -18,6 +18,22 @@
   border-radius: 0.625rem;
 }
 
+.chatRoom.noChat {
+  justify-content: center;
+  align-items: center;
+}
+
+.noChatContainer > h2{
+  text-align: center;
+  margin-bottom: unset;
+}
+
+.noChatContainer >p{
+  margin-top: unset;
+  font-size: 1rem;
+  text-align: center;
+}
+
 .chats {
   width: 25%;
   max-height: calc(100vh - 9.5vh);

@@ -15,7 +15,7 @@ function ChatPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
-  const { chatList, setCurrentChat, setChatList,addMessage,updateMessageStatus, addError } = useChat();
+  const { chatList, setCurrentChat, setChatList, addMessage, updateMessageStatus, addError } = useChat();
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,9 +25,9 @@ function ChatPage() {
   useEffect(() => {
     socket.emit("registerUser", { userId });
   })
-  
+
   useEffect(() => {
-    
+
     const updateMessages = async (message, chatRoomId) => {
       if (chatList.length === 0) {
         await ChatList(userId, setLoading, setError, setChatList);
@@ -44,23 +44,23 @@ function ChatPage() {
       await updateMessageStatus(message, chatRoomId);
 
     };
-    
+
     const deliveredMessageStatus = (message) => {
       socket.emit("messageDelivered", {
         message,
         userId
       });
     }
-  
+
     socket.on("newMessageAlert", (message, chatRoomId) => {
       updateMessages(message, chatRoomId);
       deliveredMessageStatus(message)
     });
 
-    socket.on("selfMessageAlert", (message, chatRoomId) => { 
+    socket.on("selfMessageAlert", (message, chatRoomId) => {
       updateStatusMessage(message, chatRoomId)
     });
-    
+
     socket.on("statusAlert", (message, chatRoomId) => {
       updateStatusMessage(message, chatRoomId)
     })
@@ -68,30 +68,30 @@ function ChatPage() {
 
     socket.on("sendMessageError", (error, message, chatRoomId) => {
       console.error("Message send failed:", error);
-      updateStatusMessage(message,chatRoomId)
+      updateStatusMessage(message, chatRoomId)
     });
-   
+
     return () => {
       socket.off("newMessageAlert");
       socket.off("selfMessageAlert");
       socket.off("statusAlert");
       socket.off('sendMessageError');
     };
-  }, [chatList, userId, setLoading, setError, setChatList, addMessage,updateMessageStatus,addError]);
-  
+  }, [chatList, userId, setLoading, setError, setChatList, addMessage, updateMessageStatus, addError]);
+
   const getChatList = async () => {
     await ChatList(userId, setLoading, setError, setChatList);
   }
   useEffect(() => {
-    
+
     if (!searchTerm) {
-      
+
       getChatList();
       return;
     }
 
     const timer = setTimeout(() => {
-      
+
       handleSearch(searchTerm, setChatList, setLoading, setError);
     }, 500);
 
@@ -122,10 +122,18 @@ function ChatPage() {
     setShowChat(true);
   };
 
-  
+
   return (
     <Layout className="chatPage">
-      <section className={`chatRoom ${showChat ? "show" : ""}`}>
+
+      <section className={`chatRoom ${showChat ? "show" : "noChat"}`}>
+        {!showChat &&
+          <div className="noChatContainer">
+            <h2>Your Messages</h2>
+            <p>Search your friend to start and see the chat.</p>
+
+          </div>
+        }
         <Outlet />
       </section>
       <section className={`chats ${showChat ? "hide" : ""}`}>
